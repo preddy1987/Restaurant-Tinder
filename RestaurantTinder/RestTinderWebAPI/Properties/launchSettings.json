@@ -4,7 +4,7 @@
     "windowsAuthentication": false, 
     "anonymousAuthentication": true, 
     "iisExpress": {
-      "applicationUrl": "http://localhost:51325",
+      "applicationUrl": "http://localhost:51730",
       "sslPort": 0
     }
   },
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApplication1": {
+    "RestTinderWebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
