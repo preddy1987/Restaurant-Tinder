@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VendingService.Models;
+using RestaurantTinder.Models;
 
-namespace VendingService
+namespace RestaurantTinder
 {
     /// <summary>
     /// Holds a user and manages their permissions
