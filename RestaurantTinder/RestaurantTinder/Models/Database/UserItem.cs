@@ -12,6 +12,7 @@ namespace RestaurantTinder.Models
         public string Email { get; set; }
         public string Hash { get; set; }
         public string Salt { get; set; }
+        public int ZipCode { get; set; }
         public int RoleId { get; set; }
 
         public UserItem Clone()
@@ -24,6 +25,7 @@ namespace RestaurantTinder.Models
             item.Email = this.Email;
             item.Hash = this.Hash;
             item.Salt = this.Salt;
+            item.ZipCode = this.ZipCode;
             item.RoleId = this.RoleId;
             return item;
         }

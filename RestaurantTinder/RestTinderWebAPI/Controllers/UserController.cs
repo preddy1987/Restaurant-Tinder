@@ -60,6 +60,7 @@ namespace RestTinderWebAPI.Controllers
                 user.LastName = info.LastName;
                 user.Password = info.Password;
                 user.Username = info.Username;
+                user.ZipCode = info.ZipCode;
 
                 RegisterUser(user);
             }

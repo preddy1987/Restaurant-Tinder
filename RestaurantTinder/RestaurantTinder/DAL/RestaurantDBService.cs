@@ -33,8 +33,8 @@ namespace RestaurantTinder.Database
 
         public int AddUserItem(UserItem item)
         {
-            const string sql = "INSERT [User] (FirstName, LastName, Username, Email, Hash, Salt, RoleId) " +
-                           "VALUES (@FirstName, @LastName, @Username, @Email, @Hash, @Salt, @RoleId);";
+            const string sql = "INSERT [User] (FirstName, LastName, Username, Email, Hash, Salt, ZipCode, RoleId) " +
+                           "VALUES (@FirstName, @LastName, @Username, @Email, @Hash, @Salt, @ZipCode, @RoleId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -46,6 +46,7 @@ namespace RestaurantTinder.Database
                 cmd.Parameters.AddWithValue("@Email", item.Email);
                 cmd.Parameters.AddWithValue("@Hash", item.Hash);
                 cmd.Parameters.AddWithValue("@Salt", item.Salt);
+                cmd.Parameters.AddWithValue("@ZipCode", item.ZipCode);
                 cmd.Parameters.AddWithValue("@RoleId", item.RoleId);
                 item.Id = (int)cmd.ExecuteScalar();
             }
@@ -61,6 +62,7 @@ namespace RestaurantTinder.Database
                                                  "LastName = @LastName, " +
                                                  "Username = @Username, " +
                                                  "Email = @Email, " +
+                                                 "ZipCode = @ZipCode, " +
                                                  "Hash = @Hash, " +
                                                  "Salt = @Salt " +
                                                  "WHERE Id = @Id;";
@@ -74,6 +76,7 @@ namespace RestaurantTinder.Database
                 cmd.Parameters.AddWithValue("@LastName", item.LastName);
                 cmd.Parameters.AddWithValue("@Username", item.Username);
                 cmd.Parameters.AddWithValue("@Email", item.Email);
+                cmd.Parameters.AddWithValue("@ZipCode", item.ZipCode);
                 cmd.Parameters.AddWithValue("@Hash", item.Hash);
                 cmd.Parameters.AddWithValue("@Salt", item.Salt);
                 cmd.Parameters.AddWithValue("@Id", item.Id);
@@ -183,6 +186,7 @@ namespace RestaurantTinder.Database
             item.Email = Convert.ToString(reader["Email"]);
             item.Salt = Convert.ToString(reader["Salt"]);
             item.Hash = Convert.ToString(reader["Hash"]);
+            item.ZipCode = Convert.ToInt32(reader["ZipCode"]);
             item.RoleId = Convert.ToInt32(reader["RoleId"]);
 
             return item;
