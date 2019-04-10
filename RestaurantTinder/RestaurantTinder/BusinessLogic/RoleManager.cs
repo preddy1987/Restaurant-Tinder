@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestaurantTinder.Models;
 
-namespace RestaurantTinder
+namespace RestaurantService
 {
     /// <summary>
     /// Holds a user and manages their permissions

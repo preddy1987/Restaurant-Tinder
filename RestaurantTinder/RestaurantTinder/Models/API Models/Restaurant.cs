@@ -14,7 +14,5 @@ namespace RestaurantTinder.Models.API_Models
         public Array Types { get; set; }
         public int UserRatingsTotal { get; set; }
         public string Vicinity { get; set; }
-
-
     }
 }
