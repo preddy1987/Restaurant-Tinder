@@ -101,6 +101,7 @@ namespace RestTinderWebAPI.Controllers
                 LastName = userModel.LastName,
                 Email = userModel.Email,
                 Username = userModel.Username,
+                ZipCode = userModel.ZipCode,
                 Salt = passHelper.Salt,
                 Hash = passHelper.Hash,
                 RoleId = (int)RoleManager.eRole.Customer
