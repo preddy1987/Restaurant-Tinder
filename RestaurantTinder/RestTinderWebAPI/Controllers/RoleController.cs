@@ -4,19 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VendingService.Interfaces;
-using VendingService.Models;
-using VndrWebApi.Models;
+using RestaurantTinder.Interfaces;
+using RestaurantTinder.Models;
+using RestTinderWebAPI.Models;
+using RestaurantTinder.Database;
 
-namespace VndrWebApi.Controllers
+namespace RestTinderWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private IVendingService _db = null;
+        private IRestaurantService _db = null;
 
-        public RoleController(IVendingService db)
+        public RoleController(IRestaurantService db)
         {
             _db = db;
         }

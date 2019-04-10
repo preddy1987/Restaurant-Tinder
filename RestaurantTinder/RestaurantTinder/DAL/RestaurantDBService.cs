@@ -208,7 +208,26 @@ namespace RestaurantTinder.Database
 
             return item.Id;
         }
+        public RoleItem GetRoleItem(int id)
+        {
+            RoleItem roleItem = new RoleItem();
+            const string sql = "SELECT * FROM RoleItem WHERE Id = @Id;";
 
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                var reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    roleItem = GetRoleItemFromReader(reader);
+                }
+            }
+
+            return roleItem;
+        }
         public List<RoleItem> GetRoleItems()
         {
             List<RoleItem> roles = new List<RoleItem>();
@@ -237,6 +256,42 @@ namespace RestaurantTinder.Database
             item.Name = Convert.ToString(reader["Name"]);
 
             return item;
+        }
+
+        public bool UpdateRoleItem(RoleItem item)
+        {
+            bool isSuccessful = false;
+
+            const string sql = "UPDATE RoleItem SET Name = @Name WHERE Id = @Id;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Name", item.Name);
+                cmd.Parameters.AddWithValue("@Id", item.Id);
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    isSuccessful = true;
+                }
+            }
+
+            return isSuccessful;
+        }
+
+        public void DeleteRoleItem(int id)
+        {
+            const string sql = "DELETE FROM RoleItem WHERE Id = @Id;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.ExecuteNonQuery();
+            }
         }
 
         #endregion
