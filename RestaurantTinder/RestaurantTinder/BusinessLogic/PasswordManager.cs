@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using RestaurantTinder.Models;
 
-namespace RestaurantTinder
+namespace RestaurantService
 {
     /// <summary>
     /// Used to manage password verification, hash generation, salt generation, and encryption
