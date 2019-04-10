@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantTinder.Interfaces;
 using RestaurantTinder.Models;
+using RestTinderWebAPI.Models;
 
 namespace RestTinderWebAPI.Controllers
 {
@@ -59,6 +60,7 @@ namespace RestTinderWebAPI.Controllers
                 user.LastName = info.LastName;
                 user.Password = info.Password;
                 user.Username = info.Username;
+                user.ZipCode = info.ZipCode;
 
                 RegisterUser(user);
             }
