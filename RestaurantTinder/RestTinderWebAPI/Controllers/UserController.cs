@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantTinder.Interfaces;
 using RestaurantTinder.Models;
+using RestTinderWebAPI.Models;
 
 namespace RestTinderWebAPI.Controllers
 {
