@@ -19,6 +19,9 @@ namespace RestaurantTinder.Interfaces
         #region RoleItem
         int AddRoleItem(RoleItem item);
         List<RoleItem> GetRoleItems();
+        RoleItem GetRoleItem(int id);
+        bool UpdateRoleItem(RoleItem item);
+        void DeleteRoleItem(int id);
         #endregion        
     }
 }

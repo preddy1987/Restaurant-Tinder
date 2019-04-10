@@ -5,17 +5,14 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VendingService;
-using VendingService.Exceptions;
-using VendingService.Interfaces;
-using VendingService.Models;
-using VndrWebApi.Models;
+using RestaurantTinder.Interfaces;
+using RestaurantTinder.Models;
 
-namespace VndrWebApi.Controllers
+namespace RestTinderWebAPI.Controllers
 {
     public class UserController : AuthController
     {
-        public UserController(IVendingService db, IHttpContextAccessor httpContext) : base(db, httpContext)
+        public UserController(IRestaurantService db, IHttpContextAccessor httpContext) : base(db, httpContext)
         {
 
         }

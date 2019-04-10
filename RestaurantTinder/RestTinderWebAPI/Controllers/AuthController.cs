@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantService;
+using RestaurantService.Exceptions;
+using RestaurantTinder.Interfaces;
+using RestaurantTinder.Models;
 using SessionControllerData;
-using VendingService;
-using VendingService.Exceptions;
-using VendingService.Interfaces;
-using VendingService.Models;
 
-namespace VndrWebApi.Controllers
+
+namespace RestTinderWebAPI.Controllers
 {
     public class AuthController : SessionController
     {
@@ -15,10 +16,10 @@ namespace VndrWebApi.Controllers
         /// Manages the user authentication and authorization
         /// </summary>
         private RoleManager _roleMgr = null;
-        protected IVendingService _db = null;
+        protected IRestaurantService _db = null;
         private const string RoleMgrKey = "RoleManager";
 
-        public AuthController(IVendingService db, IHttpContextAccessor httpContext) : base(httpContext)
+        public AuthController(IRestaurantService db, IHttpContextAccessor httpContext) : base(httpContext)
         {
             _db = db;
 
