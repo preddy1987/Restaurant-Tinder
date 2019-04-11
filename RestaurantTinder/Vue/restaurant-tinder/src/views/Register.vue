@@ -45,12 +45,12 @@
         required
         autofocus
       />
-       <label for="zip" class="sr-only">lastname</label>
+       <label for="zipcode" class="sr-only">lastname</label>
       <input
         type="text"
-        id="zip"
+        id="zipcode"
         class="form-control"
-        placeholder="zip"
+        placeholder="zipcode"
         v-model="user.zipCode"
         required
         autofocus
@@ -75,7 +75,7 @@
       <router-link :to="{ name: 'login' }">
         Have an account?
       </router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
+      <button @click.stop.prevent="RegisterUser" class="btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
     </form>
@@ -100,7 +100,7 @@ export default {
     };
   },
   methods: {
-    register() {
+    RegisterUser() {
       fetch(`${process.env.VUE_APP_REMOTE_API}/api/register`, {
         method: 'POST',
         headers: {

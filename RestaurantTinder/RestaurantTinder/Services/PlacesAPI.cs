@@ -13,7 +13,7 @@ namespace RestaurantTinder
         {
             List<Restaurant> restaurants = null;
 
-            string testURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=39.325714,-84.552390&radius=50000&type=restaurant&keyword=mexican&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
+                string testURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=39.325714,-84.552390&radius=50000&type=restaurant&keyword=mexican&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
                 var req = WebRequest.Create(testURL);
                 var stream = req.GetResponse().GetResponseStream();
                 using (StreamReader sr = new StreamReader(stream))
