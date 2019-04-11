@@ -28,7 +28,6 @@ namespace RestaurantTinder.Database
         }
         #endregion
 
-
         #region UserItem Methods
 
         public int AddUserItem(UserItem item)
@@ -296,6 +295,488 @@ namespace RestaurantTinder.Database
                 cmd.Parameters.AddWithValue("@Id", id);
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        #endregion
+
+        #region BlacklistItem
+
+        public int AddBlacklistItem(BlacklistItem item)
+        {
+            const string sql = "INSERT BlacklistItem (RestaurantId, UserId) " +
+                                               "VALUES (@RestaurantId, @UserId);";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
+                cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
+                cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                cmd.ExecuteNonQuery();
+            }
+
+            return item.RestaurantId;
+
+        }
+
+        public bool UpdateBlacklistItem(BlacklistItem item)
+        {
+            bool isSuccessful = false;
+
+            const string sql = "UPDATE BlacklistItem SET RestaurantId = @RestaurantId WHERE UserId = @UserId;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
+                cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    isSuccessful = true;
+                }
+            }
+
+            return isSuccessful;
+        }
+
+        public void DeleteBlacklistItem(int userId, int restaurantId)
+        {
+            const string sql = "DELETE FROM BlacklistItem WHERE userId = @UserId and RestaurantId = @RestaurantId;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@RestaurantId", restaurantId);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public BlacklistItem GetBlacklistItem(int userId, int restaurantId)
+        {
+            BlacklistItem blacklistItem = new BlacklistItem();
+            const string sql = "SELECT * FROM BlacklistItem WHERE userId = @UserId and restaurantId = @RestaurantId;";
+           
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@RestaurantId", restaurantId);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    blacklistItem = GetBlacklistItemFromReader(reader);
+                }
+            }
+
+            return blacklistItem;
+        }
+
+        public List<BlacklistItem> GetBlacklistItems(int userId)
+        {
+            List<BlacklistItem> blacklist = new List<BlacklistItem>();
+            const string sql = "Select * From BlacklistItem;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    blacklist.Add(GetBlacklistItemFromReader(reader));
+                }
+            }
+
+            return blacklist;
+        }
+
+        private BlacklistItem GetBlacklistItemFromReader(SqlDataReader reader)
+        {
+            BlacklistItem item = new BlacklistItem();
+
+            item.UserId = Convert.ToInt32(reader["UserId"]);
+            item.RestaurantId = Convert.ToInt32(reader["RestaurantId"]);
+
+            return item;
+        }
+
+        #endregion
+
+        #region FavoritesItem
+
+        public int AddFavoritesItem(FavoritesItem item)
+        {
+            const string sql = "INSERT FavoritesItem (RestaurantId, UserId) " +
+                                   "VALUES (@RestaurantId, @UserId);";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
+                cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
+                cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                cmd.ExecuteNonQuery();
+            }
+
+            return item.RestaurantId;
+
+        }
+
+        public bool UpdateFavoritesItem(FavoritesItem item)
+        {
+            bool isSuccessful = false;
+
+            const string sql = "UPDATE FavoritesItem SET RestaurantId = @RestaurantId WHERE UserId = @UserId;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
+                cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    isSuccessful = true;
+                }
+            }
+
+            return isSuccessful;
+        }
+
+        public void DeleteFavoritesItem(int userId, int restaurantId)
+        {
+            const string sql = "DELETE FROM FavoritesItem WHERE userId = @UserId and RestaurantId = @RestaurantId;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@RestaurantId", restaurantId);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public FavoritesItem GetFavoritesItem(int userId, int restaurantId)
+        {
+            FavoritesItem favoritesItem = new FavoritesItem();
+            const string sql = "SELECT * FROM FavoritesItem WHERE userId = @UserId and restaurantId = @RestaurantId;";
+
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@RestaurantId", restaurantId);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    favoritesItem = GetFavoritesItemFromReader(reader);
+                }
+            }
+
+            return favoritesItem;
+        }
+
+        public List<FavoritesItem> GetFavoritesItems(int userId)
+        {
+            List<FavoritesItem> favorites = new List<FavoritesItem>();
+            const string sql = "Select * From FavoritesItem;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    favorites.Add(GetFavoritesItemFromReader(reader));
+                }
+            }
+
+            return favorites;
+        }
+
+        private FavoritesItem GetFavoritesItemFromReader(SqlDataReader reader)
+        {
+            FavoritesItem item = new FavoritesItem();
+
+            item.UserId = Convert.ToInt32(reader["UserId"]);
+            item.RestaurantId = Convert.ToInt32(reader["RestaurantId"]);
+
+            return item;
+        }
+
+        #endregion
+
+        #region PreferredFoodItem
+
+        public int AddPreferredFoodItem(PreferredFoodItem item)
+        {
+            const string sql = "INSERT PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
+                cmd.Parameters.AddWithValue("@Id", item.Id);
+                cmd.Parameters.AddWithValue("@FoodItem", item.FoodItem);
+                cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                item.Id = (int)cmd.ExecuteScalar();
+            }
+
+            return item.Id;
+
+        }
+
+        public bool UpdatePreferredFoodItem(PreferredFoodItem item)
+        {
+            bool isSuccessful = false;
+
+            const string sql = "UPDATE PreferredFoodItem SET FoodItem = @FoodItem WHERE UserId = @UserId;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@FoodItem", item.FoodItem);
+                cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    isSuccessful = true;
+                }
+            }
+
+            return isSuccessful;
+        }
+
+        public void DeletePreferredFoodItem(int userId, string foodItem)
+        {
+            const string sql = "DELETE FROM PreferredFoodItem WHERE foodItem = @FoodItem and userId = @UserId;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                cmd.Parameters.AddWithValue("@FoodItem", foodItem);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public PreferredFoodItem GetPreferredFoodItem(int userId)
+        {
+            PreferredFoodItem preferredFoodItem = new PreferredFoodItem();
+            const string sql = "SELECT * FROM PreferredFoodItem WHERE userId = @UserId;";
+
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@UserId", userId);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    preferredFoodItem = GetPreferredFoodItemFromReader(reader);
+                }
+            }
+
+            return preferredFoodItem;
+        }
+
+        public List<PreferredFoodItem> GetPreferredFoodItems(int userId)
+        {
+            List<PreferredFoodItem> preferredFoods = new List<PreferredFoodItem>();
+            const string sql = "Select * From PreferredFoodItem;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    preferredFoods.Add(GetPreferredFoodItemFromReader(reader));
+                }
+            }
+
+            return preferredFoods;
+        }
+
+        private PreferredFoodItem GetPreferredFoodItemFromReader(SqlDataReader reader)
+        {
+            PreferredFoodItem item = new PreferredFoodItem();
+
+            item.UserId = Convert.ToInt32(reader["UserId"]);
+            item.FoodItem = Convert.ToString(reader["FoodItem"]);
+
+            return item;
+        }
+
+        #endregion
+
+        #region RestaurantItem
+
+        public int AddRestaurantItem(RestaurantItem item)
+        {
+            const string sql = "INSERT RestaurantItem (Id, Name) VALUES (@Id, @Name);";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
+                cmd.Parameters.AddWithValue("@Name", item.Name);
+                cmd.Parameters.AddWithValue("@Id", item.Id);
+
+                item.Id = (int)cmd.ExecuteScalar();
+            }
+
+            return item.Id;
+
+        }
+
+        public bool UpdateRestaurantItem(RestaurantItem item)
+        {
+            bool isSuccessful = false;
+
+            const string sql = "UPDATE RestaurantItem SET Name = @Name WHERE id = @Id;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Name", item.Name);
+                cmd.Parameters.AddWithValue("@Id", item.Id);
+                if (cmd.ExecuteNonQuery() == 1)
+                {
+                    isSuccessful = true;
+                }
+            }
+
+            return isSuccessful;
+        }
+
+        public void DeleteRestaurantItem(string name)
+        {
+            const string sql = "DELETE FROM RestaurantItem WHERE name = @Name;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Name", name);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public RestaurantItem GetRestaurantItem(string name)
+        {
+            RestaurantItem restaurantItem = new RestaurantItem();
+            const string sql = "SELECT * FROM RestaurantItem WHERE name = @Name;";
+
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Name", name);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    restaurantItem = GetRestaurantItemFromReader(reader);
+                }
+            }
+
+            return restaurantItem;
+        }
+
+        public List<RestaurantItem> GetRestaurantItems(string name)
+        {
+            List<RestaurantItem> restaurants = new List<RestaurantItem>();
+            const string sql = "Select * From RestaurantItem;";
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    restaurants.Add(GetRestaurantItemFromReader(reader));
+                }
+            }
+
+            return restaurants;
+        }
+
+        private RestaurantItem GetRestaurantItemFromReader(SqlDataReader reader)
+        {
+            RestaurantItem item = new RestaurantItem();
+
+            item.Name = Convert.ToString(reader["Name"]);
+            item.Id = Convert.ToInt32(reader["Id"]);
+
+            return item;
+        }
+
+        #endregion
+
+        #region ZipItem
+
+        public ZipItem GetZipItem(int zip)
+        {
+            ZipItem zipItem = new ZipItem();
+            const string sql = "SELECT * FROM ZipItem WHERE zip = @Zip;";
+
+
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Zip", zip);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    zipItem = GetZipItemFromReader(reader);
+                }
+            }
+
+            return zipItem;
+        }
+
+        private ZipItem GetZipItemFromReader(SqlDataReader reader)
+        {
+            ZipItem item = new ZipItem();
+
+            item.Zip = Convert.ToInt32(reader["Zip"]);
+            item.Latitude = Convert.ToDecimal(reader["Latitude"]);
+            item.Longitude = Convert.ToDecimal(reader["Longitude"]);
+
+            return item;
         }
 
         #endregion
