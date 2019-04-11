@@ -1,6 +1,6 @@
 <template>
   <div id="register" class="text-center">
-    <form class="form-register" @submit.prevent="register">
+    <form class="form-register" @submit.prevent="RegisterUser">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         There were problems registering this user.
@@ -75,7 +75,7 @@
       <router-link :to="{ name: 'login' }">
         Have an account?
       </router-link>
-      <button @click.stop.prevent="RegisterUser" class="btn btn-lg btn-primary btn-block" type="submit">
+      <button class="btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
     </form>
