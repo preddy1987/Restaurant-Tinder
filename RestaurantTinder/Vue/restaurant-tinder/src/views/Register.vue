@@ -51,7 +51,7 @@
         id="zipcode"
         class="form-control"
         placeholder="zipcode"
-        v-model="user.zipcode"
+        v-model="user.zipCode"
         required
         autofocus
       />
@@ -92,7 +92,7 @@ export default {
         firstname: '',
         lastname: '',
         email: '',
-        zipcode: '',  
+        zipCode: '',  
         password: '',
         confirmPassword: '',
       },
