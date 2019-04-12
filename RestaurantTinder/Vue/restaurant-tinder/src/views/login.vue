@@ -1,47 +1,48 @@
 <template>
-  <div id="login" class="text-center">
-    <form class="form-signin" @submit.prevent="login">
-      <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
-      <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
-        Invalid username and password!
+<test >
+  <div id="modal-wrapper" class="modal" @click='documentClick'>
+    <form id="test2" class="modal-content animate" @submit.prevent="login">
+      <div class="imgcontainer">
+        <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
+        <h1 style="text-align:center">Please Sign In</h1>
       </div>
-      <div class="alert alert-success" role="alert" v-if="this.$route.query.registration">
-        Thank you for registering, please sign in.
+
+      <div class="container">
+        <label for="username" class="sr-only">Username</label>
+          <input
+            type="text"
+            id="username"
+            class="form-control"
+            placeholder="Username"
+            v-model="user.username"
+            required
+            autofocus
+          />
+         <label for="password" class="sr-only">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            placeholder="Password"
+            v-model="user.password"
+            required
+          />     
+          <button @click="login" class="btn btn-primary btn-lg" type="submit">
+          Sign in
+        </button>
       </div>
-      <label for="username" class="sr-only">Username</label>
-      <input
-        type="text"
-        id="username"
-        class="form-control"
-        placeholder="Username"
-        v-model="user.username"
-        required
-        autofocus
-      />
-      <label for="password" class="sr-only">Password</label>
-      <input
-        type="password"
-        id="password"
-        class="form-control"
-        placeholder="Password"
-        v-model="user.password"
-        required
-      />
-      <router-link :to="{ name: 'register' }">
-        Need an account?
-      </router-link>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
-        Sign in
-      </button>
-    </form>
-  </div>
+      </form>
+    </div>
+</test>
 </template>
 
 <script>
-
+import Test from '../layouts/DefaultLayout.vue'
 export default {
   name: 'login',
-  components: {},
+  components: {
+    Test,
+  },
   data() {
     return {
       user: {
@@ -69,59 +70,123 @@ export default {
           }
         })
     },
-  },
+     documentClick(e){
+        let el =  document.getElementById('modal-wrapper');
+        if ( e.target == el ) {
+          this.$router.push('/');
+        }
+      },
+    },
 };
 </script>
 
-<style>
-html,
-body {
-  height: 100%;
-}
-#app {
-  height: 100%;
-}
-#login {
-  height: 100%;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-  font-family: 'Roboto Condensed', sans-serif;
+<style scoped>
+ /* test css */
+ /* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 90%;
+    padding: 12px 20px;
+    margin: 8px 26px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+	font-size:16px;
 }
 
-form {
-  text-align: center;
+/* Set a style for all buttons */
+.btn-primary {
+    background-color: #ee0979;
+    border-color: #ee0979;
+    padding: 14px 20px;
+    margin: 8px 26px;
+    border: none;
+    cursor: pointer;
+    font-size:20px;
+    width: 90%;
+}
+button:hover {
+    opacity: 0.8;
+    background-color: #bd0760 !important;
+    border-color: #bd0760 !important;
 }
 
-.form-signin {
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+.avatar {
+    width: 200px;
+	height:200px;
+    border-radius: 50%;
+}
+
+/* The Modal (background) */
+#modal-wrapper {
+    position: fixed;
+    display: block;
+    z-index: 1;
+    left: 0;
+    top: 5%;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* Modal Content Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 4% auto 15% auto;
+  border: 1px solid #888;
+  width: 50%;
+	padding-bottom: 30px;
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+.close:hover,.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    animation: zoom 0.6s
+}
+@media (max-width: 800px) {
+  #modal-wrapper {
+    position: fixed;
+    display: block;
+    z-index: 1;
+    left: 0;
+    top: 10%;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+  .modal-content {
+  background-color: #fefefe;
+  margin: 4% auto 15% auto;
+  border: 1px solid #888;
   width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
+  height: 100%;
+	padding-bottom: 30px;
+}
+  
+}
+@keyframes zoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
 }
 
-.form-signin .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type='text'] {
-  margin-bottom: 10px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type='password'] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 </style>
