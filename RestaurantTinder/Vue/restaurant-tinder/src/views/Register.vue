@@ -1,10 +1,10 @@
 <template>
  <test>
       <div id="modal-wrapper" class="modal" @click='documentClick'>
-     <form class="modal-content animate" @submit.prevent="login">
+     <form class="modal-content animate" @submit.prevent="RegisterUser">
       <div class="imgcontainer">
         <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
-        <h1 style="text-align:center">Please Sign Up</h1>
+        <h4 style="text-align:center">Please Sign Up</h4>
       </div>
        <div class="container">
         <label for="username" class="sr-only">Username</label>
@@ -75,7 +75,7 @@
           required
         />
 
-      <button @click.stop.prevent="RegisterUser" class="btn btn-lg btn-primary btn-block" type="submit">
+      <button  class="btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
     </div>
@@ -117,7 +117,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) {
-            // this.$router.push({ path: '/login'});
+            this.$router.push({ path: '/userpreferences'});
           } else {
             this.registrationErrors = true;
           }
@@ -140,20 +140,21 @@ export default {
  /* Full-width input fields */
 input[type=text], input[type=password], input[type=email] {
     width: 90%;
+    font-size:14px;
     padding: 12px 20px;
-    margin: 8px 26px;
+    margin: 5px 0px 5px 0px;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
-	font-size:16px;
+
 }
 
 /* Set a style for all buttons */
 .btn-primary {
     background-color: #ee0979;
     border-color: #ee0979;
-    padding: 14px 20px;
-    margin: 8px 26px;
+    padding: 12px 20px;
+    margin: 5px 0px 5px 28px;
     border: none;
     cursor: pointer;
     font-size:20px;
@@ -183,7 +184,7 @@ button:hover {
     display: block;
     z-index: 1;
     left: 0;
-    top: 10px;
+    top: 1rem;
     width: 100%;
     height: 100%;
     overflow:hidden;
@@ -224,9 +225,9 @@ button:hover {
       display: block;
       z-index: 1;
       left: 0;
-      top: 10%;
+      top: 11%;
       width: 100%;
-      height: 100%;
+      height: 80%;
       overflow: auto;
       background-color: rgba(0,0,0,0.4);
     }
@@ -238,6 +239,9 @@ button:hover {
     height: 100%;
     padding-bottom: 30px;
   }
+  .btn-primary {
+    margin: 5px 0px 5px 15px;
+}
 }
 @keyframes zoom {
     from {transform: scale(0)} 
