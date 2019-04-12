@@ -15,6 +15,7 @@
       </div>
     </div>
   </nav>
+
   <header class="masthead text-center text-white">
     <div class="masthead-content">
       <div class="container">
@@ -87,6 +88,7 @@ h6 {
   font-size: 1rem;
   letter-spacing: 0.1rem;
   font-weight: 700;
+  width: 80%;
 }
 
 .navbar-custom .navbar-nav .nav-item .nav-link {
@@ -95,12 +97,12 @@ h6 {
   font-weight: 700;
   letter-spacing: 0.1rem;
 }
-
 header.masthead {
   position: relative;
   overflow: hidden;
   padding-top: calc(7rem + 72px);
   padding-bottom: 7rem;
+  height: 100vh;
   background-image: url("../assets/food.jpg");
  
   background-repeat: no-repeat;
@@ -114,11 +116,11 @@ header.masthead .masthead-content {
 }
 
 header.masthead .masthead-content .masthead-heading {
-  font-size: 4rem;
+  font-size: 7rem;
 }
 
 header.masthead .masthead-content .masthead-subheading {
-  font-size: 3rem;
+  font-size: 6rem;
 }
 
 header.masthead .bg-circle {
@@ -156,18 +158,23 @@ header.masthead .bg-circle-4 {
   top: -5rem;
   right: 35%;
 }
-
 @media (max-width: 800px) {
   header.masthead {
     padding-top: calc(10rem + 55px);
     padding-bottom: 10rem;
   }
   header.masthead .masthead-content .masthead-heading {
-    font-size: 6rem;
+    font-size: 3rem;
   }
   header.masthead .masthead-content .masthead-subheading {
-    font-size: 4rem;
+    font-size: 3rem;
   }
+  #main-logo{
+    display: none;
+}
+.navbar-custom .navbar-brand{
+    width: 60%;
+}
 }
 
 .bg-primary {

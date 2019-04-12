@@ -186,9 +186,10 @@ button:hover {
     top: 10px;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow:hidden;
     background-color: rgba(0,0,0,0.4);
 }
+
 
 /* Modal Content Box */
 .modal-content {
@@ -217,9 +218,29 @@ button:hover {
 .animate {
     animation: zoom 0.6s
 }
+@media (max-width: 800px) {
+    #modal-wrapper {
+      position: fixed;
+      display: block;
+      z-index: 1;
+      left: 0;
+      top: 10%;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+    background-color: #fefefe;
+    margin: 0;
+    border: 1px solid #888;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 30px;
+  }
+}
 @keyframes zoom {
     from {transform: scale(0)} 
     to {transform: scale(1)}
 }
-
 </style>

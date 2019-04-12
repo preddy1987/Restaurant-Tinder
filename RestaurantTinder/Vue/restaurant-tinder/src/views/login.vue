@@ -173,7 +173,8 @@ button:hover {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
-}
+  
+  }
   .modal-content {
   background-color: #fefefe;
   margin: 4% auto 15% auto;
@@ -181,7 +182,7 @@ button:hover {
   width: 100%;
   height: 100%;
 	padding-bottom: 30px;
-}
+ }
   
 }
 @keyframes zoom {
