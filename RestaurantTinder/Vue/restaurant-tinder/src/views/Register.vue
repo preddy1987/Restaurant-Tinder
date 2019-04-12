@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
  <test>
       <div id="modal-wrapper" class="modal" @click='documentClick'>
      <form class="modal-content animate" @submit.prevent="login">
@@ -76,6 +77,85 @@
         />
 
       <button @click.stop.prevent="RegisterUser" class="btn btn-lg btn-primary btn-block" type="submit">
+=======
+  <div id="register" class="text-center">
+    <form class="form-register" @submit.prevent="RegisterUser">
+      <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
+      <div class="alert alert-danger" role="alert" v-if="registrationErrors">
+        There were problems registering this user.
+      </div>
+      <label for="username" class="sr-only">Username</label>
+      <input
+        type="text"
+        id="username"
+        class="form-control"
+        placeholder="Username"
+        v-model="user.username"
+        required
+        autofocus
+      />
+      <label for="firstname" class="sr-only">Firstname</label>
+      <input
+        type="text"
+        id="firstname"
+        class="form-control"
+        placeholder="Firstname"
+        v-model="user.firstname"
+        required
+        autofocus
+      />
+      <label for="lastname" class="sr-only">lastname</label>
+      <input
+        type="text"
+        id="lastname"
+        class="form-control"
+        placeholder="Lastname"
+        v-model="user.lastname"
+        required
+        autofocus
+      />
+     <label for="email" class="sr-only">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        placeholder="Email"
+        v-model="user.email"
+        required
+        autofocus
+      />
+       <label for="zipcode" class="sr-only">lastname</label>
+      <input
+        type="text"
+        id="zipcode"
+        class="form-control"
+        placeholder="zipcode"
+        v-model="user.zipCode"
+        required
+        autofocus
+      />
+      <label for="password" class="sr-only">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        placeholder="Password"
+        v-model="user.password"
+        required
+      />
+      <input
+        type="password"
+        id="confirmPassword"
+        class="form-control"
+        placeholder="Confirm Password"
+        v-model="user.confirmPassword"
+        required
+      />
+      <router-link :to="{ name: 'login' }">
+        Have an account?
+      </router-link>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">
+>>>>>>> a1f2ecf932a986a79e3628c4fd35cad4893a90b4
         Create Account
       </button>
     </div>

@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Landing from './views/Landing.vue'
+import UserPreferences from './views/UserPreferences.vue'
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ const router = new Router({
         path: '/register',
         name: 'register',
         component: Register,
+    },
+    {
+      path: '/userpreferences',
+      name: 'userpreferences',
+      component: UserPreferences,
     }
   ],
 })
