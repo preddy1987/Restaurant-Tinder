@@ -6,6 +6,9 @@
         <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
         <h1 style="text-align:center">Please Sign In</h1>
       </div>
+       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
+        Invalid username and password!
+      </div>
 
       <div class="container">
         <label for="username" class="sr-only">Username</label>
@@ -27,7 +30,7 @@
             v-model="user.password"
             required
           />     
-          <button @click="login" class="btn btn-primary btn-lg" type="submit">
+          <button  class="btn btn-primary btn-lg" type="submit">
           Sign in
         </button>
       </div>
@@ -64,7 +67,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) {
-            return response.text();
+            this.$router.push({ path: '/userpreferences'});
           } else {
             this.invalidCredentials = true;
           }

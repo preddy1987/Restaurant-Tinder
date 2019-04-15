@@ -2,14 +2,18 @@
 <div>
   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container">
-      <a class="navbar-brand" ><img id="main-logo" src="@/assets/dot.png" alt=""><span>Restaurant tinder</span></a>
+      <img id="main-logo" src="@/assets/dot.png" alt="">
+      <a class="navbar-brand" ><span>Restaurant tinder</span></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-             <router-link class="nav-link" :to="{ name: 'register' }">Sign Up</router-link>
+             <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
+          </li>
+          <li class="nav-item"> 
+             <router-link class="nav-link" :to="{ name: 'userpreferences' }">Preferences</router-link>
           </li>
         </ul>
       </div>
@@ -21,7 +25,7 @@
       <div class="container">
         <h1 class="masthead-heading mb-0">Hunger is a terrible</h1>
         <h1 class="masthead-subheading mb-0">thing to waste</h1>
-         <router-link class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'login' }">Log In</router-link>
+         <router-link class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'register' }">Sign Up</router-link>
       </div>
     </div>
   </header>
@@ -42,7 +46,7 @@ export default {
 
 <style scoped>
 #main-logo{
-    width: 8%;
+    width: 5%;
 }
 body {
   font-family: 'Lato';
@@ -71,6 +75,8 @@ h6 {
 }
 .bg-black {
   background-color: #000 !important;
+  padding-bottom: 1rem!important;
+  padding-top: 1rem!important;
 }
 
 .rounded-pill {
@@ -116,47 +122,11 @@ header.masthead .masthead-content {
 }
 
 header.masthead .masthead-content .masthead-heading {
-  font-size: 7rem;
+  font-size: 5rem;
 }
 
 header.masthead .masthead-content .masthead-subheading {
-  font-size: 6rem;
-}
-
-header.masthead .bg-circle {
-  z-index: 0;
-  position: absolute;
-  border-radius: 100%;
-  background: -webkit-gradient(linear, left bottom, left top, from(#ee0979), to(#ff6a00));
-  background: linear-gradient(0deg, #ee0979 0%, #ff6a00 100%);
-}
-
-header.masthead .bg-circle-1 {
-  height: 90rem;
-  width: 90rem;
-  bottom: -55rem;
-  left: -55rem;
-}
-
-header.masthead .bg-circle-2 {
-  height: 50rem;
-  width: 50rem;
-  top: -25rem;
-  right: -25rem;
-}
-
-header.masthead .bg-circle-3 {
-  height: 20rem;
-  width: 20rem;
-  bottom: -10rem;
-  right: 5%;
-}
-
-header.masthead .bg-circle-4 {
-  height: 30rem;
-  width: 30rem;
-  top: -5rem;
-  right: 35%;
+  font-size: 4rem;
 }
 @media (max-width: 800px) {
   header.masthead {
@@ -173,7 +143,7 @@ header.masthead .bg-circle-4 {
     display: none;
 }
 .navbar-custom .navbar-brand{
-    width: 60%;
+    width: 20%;
 }
 }
 
