@@ -43,7 +43,7 @@ namespace RestaurantTinder.Interfaces
         #region PreferredFoodItem
         int AddPreferredFoodItem(PreferredFoodItem item);
         bool UpdatePreferredFoodItem(PreferredFoodItem item);
-        void DeletePreferredFoodItem(int userId);
+        void DeletePreferredFoodItem(int userId, string foodItem);
         PreferredFoodItem GetPreferredFoodItem(int userId);
         List<PreferredFoodItem> GetPreferredFoodItems(int userId);
         #endregion
@@ -57,7 +57,7 @@ namespace RestaurantTinder.Interfaces
         #endregion
 
         #region ZipItem
-        ZipItem GetZipItem(int zipCode);
+        ZipItem GetZipItem(int zip);
         #endregion
     }
 }
