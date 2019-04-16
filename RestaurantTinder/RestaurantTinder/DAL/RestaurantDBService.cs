@@ -476,7 +476,7 @@ namespace RestaurantTinder.Database
         public List<FavoritesItem> GetFavoritesItems(int userId)
         {
             List<FavoritesItem> favorites = new List<FavoritesItem>();
-            const string sql = "Select * From FavoritesItem;";
+            const string sql = "Select * From Favorites;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -510,13 +510,13 @@ namespace RestaurantTinder.Database
 
         public int AddPreferredFoodItem(PreferredFoodItem item)
         {
-            const string sql = "INSERT INTO PreferredFoodItem (Id, Name, UserId) VALUES (@Id, @Name, @UserId);";
+            const string sql = "INSERT INTO PreferredFood (Name, UserId) VALUES (@Name, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
-                cmd.Parameters.AddWithValue("@Id", item.Id);
+                //cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.Parameters.AddWithValue("@Name", item.Name);
                 cmd.Parameters.AddWithValue("@UserId", item.UserId);
                 item.Id = (int)cmd.ExecuteScalar();
@@ -529,7 +529,7 @@ namespace RestaurantTinder.Database
         public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
         {
 
-            const string sql = "INSERT INTO PreferredFoodItem (Id, Name, UserId) VALUES (@Id, @Name, @UserId);";
+            const string sql = "INSERT INTO PreferredFood (Name, UserId) VALUES (@Name, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -537,11 +537,10 @@ namespace RestaurantTinder.Database
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
                 foreach (var item in preferredFoods)
                 {
-                    cmd.Parameters.AddWithValue("@Id", item.Id);
+                    //cmd.Parameters.AddWithValue("@Id", item.Id);
                     cmd.Parameters.AddWithValue("@Name", item.Name);
                     cmd.Parameters.AddWithValue("@UserId", item.UserId);
-                    cmd.ExecuteNonQuery();
-                    //item.Id = (int)cmd.ExecuteScalar();
+                    item.Id = (int)cmd.ExecuteScalar();
                 }
             }
 
@@ -589,7 +588,7 @@ namespace RestaurantTinder.Database
         public List<PreferredFoodItem> GetPreferredFoodItems(int userId)
         {
             List<PreferredFoodItem> preferredFoods = new List<PreferredFoodItem>();
-            const string sql = "Select * From PreferredFoodItem;";
+            const string sql = "Select * From PreferredFood;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -733,7 +732,7 @@ namespace RestaurantTinder.Database
         public ZipItem GetZipItem(int zip)
         {
             ZipItem zipItem = new ZipItem();
-            const string sql = "SELECT * FROM ZipCode WHERE ZipCode = @Zip;";
+            const string sql = "SELECT * FROM ZipCode WHERE Zip = @Zip;";
 
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
