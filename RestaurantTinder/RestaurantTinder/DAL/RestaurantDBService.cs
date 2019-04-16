@@ -521,6 +521,29 @@ namespace RestaurantTinder.Database
 
         }
 
+        public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
+        {
+
+            const string sql = "INSERT INTO PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
+                foreach (var item in preferredFoods)
+                {
+                    cmd.Parameters.AddWithValue("@Id", item.Id);
+                    cmd.Parameters.AddWithValue("@FoodItem", item.FoodItem);
+                    cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                    cmd.ExecuteNonQuery();
+                    //item.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+
+            //return item.Id;
+
+        }
+
         public void DeletePreferredFoodItem(int userId, string foodItem)
         {
             const string sql = "DELETE FROM PreferredFoodItem WHERE foodItem = @FoodItem and userId = @UserId;";

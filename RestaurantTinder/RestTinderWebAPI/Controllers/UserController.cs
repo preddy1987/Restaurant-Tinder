@@ -105,7 +105,7 @@ namespace RestTinderWebAPI.Controllers
             return Ok(token);
         }
         [HttpGet]
-        [Route("api/preference")]
+        [Route("api/preferences")]
         public ActionResult<IEnumerable<UserItem>> GetUserPref()
         {
             var result = Json(_db.GetPreferredFoodItems(CurrentUser.Id));

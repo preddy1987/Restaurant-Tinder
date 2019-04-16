@@ -16,7 +16,7 @@ namespace RestTinderWebAPI.Controllers
         /// <summary>
         /// Manages the user authentication and authorization
         /// </summary>
-        protected RoleManager _roleMgr = null;
+        private RoleManager _roleMgr = null;
         protected IRestaurantService _db = null;
         private const string RoleMgrKey = "RoleManager";
         protected ITokenGenerator tokenGenerator = null;
@@ -40,7 +40,7 @@ namespace RestTinderWebAPI.Controllers
         }
 
         /// <summary>
-        /// The current logged in user of the vending machine
+        /// The current logged in user of the restaurant tinder
         /// </summary>
         public UserItem CurrentUser
         {

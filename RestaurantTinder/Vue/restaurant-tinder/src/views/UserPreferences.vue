@@ -6,7 +6,7 @@
                 <li class="list-group-item" v-for="pref in currentPrefsList" :key="pref.id">{{ pref.name }}</li>
             </ul>
         </div>
-        <form class="form-preferences" @submit.prevent="UpdatePrefs">
+        <form class="form-preferences" @submit.prevent="SavePrefs">
             <h1 class="h3 mb-3 font-weight-normal">Add a food preference here</h1>
             <div class="alert alert-danger" role="alert" v-if="registrationErrors">
                 There were problems registering this user.
@@ -24,19 +24,6 @@
                 Add Preference
             </button>
         </form>
-        <form class="form-preferences" @submit.prevent="SavePrefs">
-            <h1 class="h3 mb-3 font-weight-normal">Food Preferences</h1>
-            <div class="alert alert-danger" role="alert" v-if="registrationErrors">
-                There were problems registering this user.
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item" v-for="pref in prefsToAddList" :key="pref.id">{{ pref.name }}</li>
-            </ul>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">
-                Save Preferences
-            </button>
-        </form>
-
     </div>
 </template>
 
