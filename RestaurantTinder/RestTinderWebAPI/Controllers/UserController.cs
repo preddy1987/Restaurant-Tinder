@@ -105,7 +105,7 @@ namespace RestTinderWebAPI.Controllers
             foreach (var name in foodPreferences.Names)
             {
                 PreferredFoodItem preferredFood = new PreferredFoodItem();
-                preferredFood.FoodItem = name;
+                preferredFood.Name = name;
                 preferredFood.UserId = CurrentUser.Id;
                 preferredFoodItems.Add(preferredFood);
             }

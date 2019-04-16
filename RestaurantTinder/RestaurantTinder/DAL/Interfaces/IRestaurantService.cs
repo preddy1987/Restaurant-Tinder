@@ -26,7 +26,6 @@ namespace RestaurantTinder.Interfaces
 
         #region BlacklistItem
         int AddBlacklistItem(BlacklistItem item);
-        bool UpdateBlacklistItem(BlacklistItem item);
         void DeleteBlacklistItem(int userId, int restaurantId);
         BlacklistItem GetBlacklistItem(int userId, int restaurantId);
         List<BlacklistItem> GetBlacklistItems(int userId);
@@ -42,7 +41,7 @@ namespace RestaurantTinder.Interfaces
         #region PreferredFoodItem
         int AddPreferredFoodItem(PreferredFoodItem item);
         void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods);
-        void DeletePreferredFoodItem(int userId, string foodItem);
+        void DeletePreferredFoodItem(int userId, string name);
         PreferredFoodItem GetPreferredFoodItem(int userId);
         List<PreferredFoodItem> GetPreferredFoodItems(int userId);
         #endregion

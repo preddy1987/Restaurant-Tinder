@@ -52,7 +52,7 @@ namespace RestaurantTinderIntegrationTests
                 temp.Hash = passHelper.Hash;
                 temp.Salt = passHelper.Salt;
                 temp.Email = "garrickkreitzer1@gmail.com";
-                temp.RoleId = (int)RoleManager.eRole.Customer;
+                temp.RoleId = RoleManager.eRole.Customer.ToString();
 
                 // Add user item
                 _userId1 = _db.AddUserItem(temp);

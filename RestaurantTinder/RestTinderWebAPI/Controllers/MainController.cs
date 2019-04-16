@@ -30,23 +30,23 @@ namespace RestTinderWebAPI.Controllers
 
 
         [HttpGet]
-        public ActionResult<JObject> Index()
+        public ActionResult<List<JObject>> Index()
         {
             var zip = _db.GetZipItem(CurrentUser.ZipCode);
-            var foodItem = _db.GetFavoritesItems(CurrentUser.Id);
-            dynamic obj = null;
+            var foodItem = _db.GetPreferredFoodItems(CurrentUser.Id);
+            //dynamic obj = null;
+            List<JObject> test = new List<JObject>();
 
             foreach (var item in foodItem)
             {
-                string testURL = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={{zip.Latitude}},{{zip.Longitude}}&radius=50000&type=restaurant&keyword={{item}}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
+                string testURL = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={zip.Latitude},{zip.Longitude}&radius=50000&type=restaurant&keyword={item.Name}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
 
                 string json = HttpGet(testURL);
 
-                obj = JObject.Parse(json);
-
-                
+                test.Add(JObject.Parse(json));
+              
             }
-            return obj;
+            return test;
         }
 
 
