@@ -28,7 +28,7 @@
 </template>
 
 <script>
-
+import auth from '../auth';
 export default {
 name: 'UserPreferences',
   components: {
@@ -37,7 +37,7 @@ name: 'UserPreferences',
     return {
         preference:'',
         prefsToAdd: [],
-        currentPrefs: [{name:'Thai'}],
+        currentPrefs: [],
         registrationErrors: false,
     }
   },
@@ -64,36 +64,61 @@ name: 'UserPreferences',
         }
     },
     methods: {
+
         SavePrefs() {
-        const player = {};
-        player.name = this.addPlayerName;
 
-        let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/savepreference";
+          let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/savepreference";
 
-        //http://localhost:50260/api/savepreference
-        fetch(ajaxURL, {
-            method: 'post',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(player)
-        })
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            window.console.log(data);       
-        })
-        .catch((error) => {
-            window.console.log('Error:', error);
-        });
+          //http://localhost:50260/api/savepreference
+          fetch(ajaxURL, {
+              method: 'post',
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization : 'Bearer ' + auth.getToken(),
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify(this.preference)
+          })
+          .then((response) => {
+              return response.text();
+          })
+          .then((data) => {
+              window.console.log(data);
+              this.GetCurrentPrefs();       
+          })
+          .catch((error) => {
+              window.console.log('Error:', error);
+          });
         },
         UpdatePrefs(){
             this.prefsToAdd.push({name: this.preference});
         },
         GetCurrentPrefs() {
+          let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/preferences";
 
+          //http://localhost:50260/api/preferences
+          fetch(ajaxURL, {
+              method: 'get',
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization : 'Bearer ' + auth.getToken(),
+              },
+              credentials: 'same-origin',
+          })
+          .then((response) => {
+              return response.json();
+          })
+          .then((data) => {
+              window.console.log(data); 
+              this.currentPrefs = data;      
+          })
+          .catch((error) => {
+              window.console.log('Error:', error);
+          });
         }
+    },
+    created() {
+      this.GetCurrentPrefs();
     }
 }
 </script>
