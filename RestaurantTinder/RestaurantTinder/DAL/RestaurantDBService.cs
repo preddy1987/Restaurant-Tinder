@@ -705,7 +705,7 @@ namespace RestaurantTinder.Database
         public ZipItem GetZipItem(int zip)
         {
             ZipItem zipItem = new ZipItem();
-            const string sql = "SELECT * FROM ZipCode WHERE ZipCode = @Zip;";
+            const string sql = "SELECT * FROM ZipCode WHERE Zip = @Zip;";
 
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
