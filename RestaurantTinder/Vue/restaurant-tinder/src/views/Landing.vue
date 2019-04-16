@@ -1,6 +1,6 @@
 <template>
 <div>
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
       <img id="main-logo" src="@/assets/dot.png" alt="">
       <a class="navbar-brand" ><span>Restaurant tinder</span></a>
@@ -22,8 +22,8 @@
       </div>
     </div>
   </nav>
-
-  <header class="masthead text-center text-white">
+  <main-view v-if="test"></main-view>
+  <header v-if="!test" class="masthead text-center text-white">
     <div class="masthead-content">
       <div class="container">
         <h1 class="masthead-heading mb-0">Hunger is a terrible</h1>
@@ -43,9 +43,11 @@
 
 <script>
 import auth from '../auth';
+import MainView from '@/components/Main';
 export default {
 name: 'Landing',
   components: {
+    MainView
   },
   data() {
      return {
@@ -113,7 +115,7 @@ h6 {
 .navbar-custom {
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, .8);
 }
 
 .navbar-custom .navbar-brand {

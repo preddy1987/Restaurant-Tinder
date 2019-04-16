@@ -41,7 +41,12 @@ namespace RestTinderWebAPI
                 options.Cookie.HttpOnly = true;
             });
 
-            services.AddCors();
+            // Add CORS policy allowing any origin
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
 
             // Enables automatic authentication token.
             // The token is expected to be included as a bearer authentication token.
@@ -84,9 +89,9 @@ namespace RestTinderWebAPI
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
-
-            // Shows UseCors with CorsPolicyBuilder.
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            app.UseCors("CorsPolicy");
+            // Enables the middleware to check the incoming request headers.
+            app.UseAuthentication();
 
             app.UseMvc();
         }

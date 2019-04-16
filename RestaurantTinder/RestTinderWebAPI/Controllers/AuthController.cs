@@ -40,13 +40,14 @@ namespace RestTinderWebAPI.Controllers
         }
 
         /// <summary>
-        /// The current logged in user of the vending machine
+        /// The current logged in user of the restaurant tinder
         /// </summary>
         public UserItem CurrentUser
         {
             get
             {
-                return _roleMgr.User;
+                //return _roleMgr.User;
+                return _db.GetUserItem(base.User.Identity.Name);
             }
         }
 
