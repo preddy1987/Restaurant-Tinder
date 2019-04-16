@@ -529,7 +529,7 @@ namespace RestaurantTinder.Database
         public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
         {
 
-            const string sql = "INSERT INTO PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
+            const string sql = "INSERT INTO PreferredFoodItem (Id, Name, UserId) VALUES (@Id, @Name, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -538,7 +538,7 @@ namespace RestaurantTinder.Database
                 foreach (var item in preferredFoods)
                 {
                     cmd.Parameters.AddWithValue("@Id", item.Id);
-                    cmd.Parameters.AddWithValue("@FoodItem", item.FoodItem);
+                    cmd.Parameters.AddWithValue("@Name", item.Name);
                     cmd.Parameters.AddWithValue("@UserId", item.UserId);
                     cmd.ExecuteNonQuery();
                     //item.Id = (int)cmd.ExecuteScalar();
@@ -762,12 +762,6 @@ namespace RestaurantTinder.Database
 
             return item;
         }
-
-        public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
 }
