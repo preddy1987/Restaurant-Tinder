@@ -101,6 +101,7 @@ header.masthead {
   overflow: hidden;
   padding-top: calc(7rem + 72px);
   padding-bottom: 7rem;
+  height: 90vh;
   background-image: url("../assets/food.jpg");
  
   background-repeat: no-repeat;

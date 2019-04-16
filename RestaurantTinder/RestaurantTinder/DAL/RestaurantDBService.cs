@@ -527,7 +527,7 @@ namespace RestaurantTinder.Database
 
         public int AddPreferredFoodItem(PreferredFoodItem item)
         {
-            const string sql = "INSERT PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
+            const string sql = "INSERT INTO PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
