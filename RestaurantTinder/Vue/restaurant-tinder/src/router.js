@@ -3,7 +3,6 @@ import Router from 'vue-router';
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Landing from './views/Landing.vue'
-import Main from './views/Main.vue'
 import UserPreferences from './views/UserPreferences.vue'
 
 import auth from './auth';
@@ -34,11 +33,6 @@ const router = new Router({
       name: 'userpreferences',
       component: UserPreferences,
     },
-    {
-      path: '/main',
-      name: 'main',
-      component: Main,
-    }
   ],
 })
 

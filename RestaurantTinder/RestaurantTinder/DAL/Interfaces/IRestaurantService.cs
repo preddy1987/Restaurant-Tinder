@@ -34,7 +34,6 @@ namespace RestaurantTinder.Interfaces
 
         #region FavoritesItem
         int AddFavoritesItem(FavoritesItem item);
-        bool UpdateFavoritesItem(FavoritesItem item);
         void DeleteFavoritesItem(int userId, int restaurantId);
         FavoritesItem GetFavoritesItem(int userId, int restaurantId);
         List<FavoritesItem> GetFavoritesItems(int userId);
@@ -42,7 +41,6 @@ namespace RestaurantTinder.Interfaces
 
         #region PreferredFoodItem
         int AddPreferredFoodItem(PreferredFoodItem item);
-        bool UpdatePreferredFoodItem(PreferredFoodItem item);
         void DeletePreferredFoodItem(int userId, string foodItem);
         PreferredFoodItem GetPreferredFoodItem(int userId);
         List<PreferredFoodItem> GetPreferredFoodItems(int userId);

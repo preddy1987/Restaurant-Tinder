@@ -1,18 +1,15 @@
 <template>
-<test>
-<h1>{{restaurant.results[2].vicinity}}</h1>
-
-</test>
+<div>
+   <h1>Restaurants</h1>
+        <ul>
+            <li v-for="item in restaurant" :key="item.id">{{item.results.name}} </li>
+        </ul>
+</div>
 </template>
 
 <script>
-// import auth from '../auth';
-import Test from '../layouts/DefaultLayout.vue'
+import auth from '../auth';
 export default {
- name: 'mainPage',
-  components: {
-    Test,
-  },
   data() {
     return {
       restaurant: [],
@@ -20,13 +17,17 @@ export default {
   },
    created() {
     fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/`, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + auth.getToken(),
+      },
+      credentials: 'same-origin',
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        this.restaurant = data;
+        this.restaurant += data;
       })
       .catch((err) => console.error(err));
   },
