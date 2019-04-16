@@ -26,7 +26,9 @@ namespace RestaurantTinderIntegrationTests
         private int _preferredFoodId = BaseItem.InvalidId;
         private int _favoritesId = BaseItem.InvalidId;
         private int _blacklistId = BaseItem.InvalidId;
-        private int _zip = BaseItem.InvalidZip;
+        private int _zip = 41091;
+        private decimal _latitude = 38.91026700M;
+        private decimal _longitude = -84.73632700M;
         private int _userId1 = BaseItem.InvalidId;
         private int _userId2 = BaseItem.InvalidId;
 
@@ -376,6 +378,8 @@ namespace RestaurantTinderIntegrationTests
             // Test get zip item
             ZipItem item = new ZipItem();
             item.Zip = _zip;
+            item.Latitude = _latitude;
+            item.Latitude = _longitude;
 
             ZipItem itemGet = _db.GetZipItem(item.Zip);
             Assert.AreEqual(item.Zip, itemGet.Zip);

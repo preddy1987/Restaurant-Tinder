@@ -197,14 +197,13 @@ namespace RestaurantTinder.Database
 
         public int AddRoleItem(RoleItem item)
         {
-            const string sql = "INSERT RoleItem (Id, Name) " +
-                               "VALUES (@Id, @Name);";
+            const string sql = "INSERT RoleItem (Name) " +
+                               "VALUES (@Name);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
-                cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.Parameters.AddWithValue("@Name", item.Name);
                 cmd.ExecuteNonQuery();
             }
@@ -303,14 +302,13 @@ namespace RestaurantTinder.Database
 
         public int AddBlacklistItem(BlacklistItem item)
         {
-            const string sql = "INSERT BlacklistItem (Id, RestaurantId, UserId) " +
-                                               "VALUES (@Id, @RestaurantId, @UserId);";
+            const string sql = "INSERT BlacklistItem (RestaurantId, UserId) " +
+                                               "VALUES (@RestaurantId, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
-                cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
                 cmd.Parameters.AddWithValue("@UserId", item.UserId);
                 cmd.ExecuteNonQuery();
@@ -418,14 +416,13 @@ namespace RestaurantTinder.Database
 
         public int AddFavoritesItem(FavoritesItem item)
         {
-            const string sql = "INSERT FavoritesItem (Id, RestaurantId, UserId) " +
-                                   "VALUES (@Id, @RestaurantId, @UserId);";
+            const string sql = "INSERT Favorites (RestaurantId, UserId) " +
+                                   "VALUES (@RestaurantId, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
-                cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
                 cmd.Parameters.AddWithValue("@UserId", item.UserId);
                 cmd.ExecuteNonQuery();
@@ -528,12 +525,7 @@ namespace RestaurantTinder.Database
         
         public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
         {
-
-<<<<<<< HEAD
-            const string sql = "INSERT INTO PreferredFoodItem (Id, Name, UserId) VALUES (@Id, @Name, @UserId);";
-=======
             const string sql = "INSERT INTO PreferredFood (Name, UserId) VALUES (@Name, @UserId);";
->>>>>>> a56ec6e8883b856faa4d60fc2a2b61319d5acbc8
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -541,18 +533,12 @@ namespace RestaurantTinder.Database
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
                 foreach (var item in preferredFoods)
                 {
-<<<<<<< HEAD
-                    cmd.Parameters.AddWithValue("@Id", item.Id);
-=======
                     //cmd.Parameters.AddWithValue("@Id", item.Id);
->>>>>>> a56ec6e8883b856faa4d60fc2a2b61319d5acbc8
                     cmd.Parameters.AddWithValue("@Name", item.Name);
                     cmd.Parameters.AddWithValue("@UserId", item.UserId);
                     item.Id = (int)cmd.ExecuteScalar();
                 }
             }
-
-            //return item.Id;
 
         }
 
@@ -574,7 +560,7 @@ namespace RestaurantTinder.Database
         public PreferredFoodItem GetPreferredFoodItem(int userId)
         {
             PreferredFoodItem preferredFoodItem = new PreferredFoodItem();
-            const string sql = "SELECT * FROM PreferredFoodItem WHERE userId = @UserId;";
+            const string sql = "SELECT * FROM PreferredFood WHERE userId = @UserId;";
 
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -629,14 +615,13 @@ namespace RestaurantTinder.Database
 
         public int AddRestaurantItem(RestaurantItem item)
         {
-            const string sql = "INSERT RestaurantItem (Id, Name) VALUES (@Id, @Name);";
+            const string sql = "INSERT Restaurant (Name) VALUES (@Name);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
                 cmd.Parameters.AddWithValue("@Name", item.Name);
-                cmd.Parameters.AddWithValue("@Id", item.Id);
 
                 item.Id = (int)cmd.ExecuteScalar();
             }
@@ -649,7 +634,7 @@ namespace RestaurantTinder.Database
         {
             bool isSuccessful = false;
 
-            const string sql = "UPDATE RestaurantItem SET Name = @Name WHERE id = @Id;";
+            const string sql = "UPDATE Restaurant SET Name = @Name WHERE id = @Id;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -669,7 +654,7 @@ namespace RestaurantTinder.Database
 
         public void DeleteRestaurantItem(string name)
         {
-            const string sql = "DELETE FROM RestaurantItem WHERE name = @Name;";
+            const string sql = "DELETE FROM Restaurant WHERE name = @Name;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -684,7 +669,7 @@ namespace RestaurantTinder.Database
         public RestaurantItem GetRestaurantItem(string name)
         {
             RestaurantItem restaurantItem = new RestaurantItem();
-            const string sql = "SELECT * FROM RestaurantItem WHERE name = @Name;";
+            const string sql = "SELECT * FROM Restaurant WHERE name = @Name;";
 
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -706,7 +691,7 @@ namespace RestaurantTinder.Database
         public List<RestaurantItem> GetRestaurantItems(string name)
         {
             List<RestaurantItem> restaurants = new List<RestaurantItem>();
-            const string sql = "Select * From RestaurantItem;";
+            const string sql = "Select * From Restaurant;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -769,10 +754,6 @@ namespace RestaurantTinder.Database
 
             return item;
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> a56ec6e8883b856faa4d60fc2a2b61319d5acbc8
         #endregion
     }
 }
