@@ -88,7 +88,7 @@ namespace RestaurantTinder.Database
             return isSuccessful;
         }
 
-        public void DeleteUserItem(int userId)
+        public void DeleteUserItem(int id)
         {
             const string sql = "DELETE FROM [User] WHERE Id = @Id;";
 
@@ -97,12 +97,12 @@ namespace RestaurantTinder.Database
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Id", userId);
+                cmd.Parameters.AddWithValue("@Id", id );
                 cmd.ExecuteNonQuery();
             }
         }
 
-        public UserItem GetUserItem(int userId)
+        public UserItem GetUserItem(int id)
         {
             UserItem user = null;
             const string sql = "SELECT * From [User] WHERE Id = @Id;";
@@ -111,7 +111,7 @@ namespace RestaurantTinder.Database
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Id", userId);
+                cmd.Parameters.AddWithValue("@Id", id);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -529,7 +529,7 @@ namespace RestaurantTinder.Database
         public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
         {
 
-            const string sql = "INSERT INTO PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
+            const string sql = "INSERT INTO PreferredFoodItem (Id, Name, UserId) VALUES (@Id, @Name, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -538,7 +538,7 @@ namespace RestaurantTinder.Database
                 foreach (var item in preferredFoods)
                 {
                     cmd.Parameters.AddWithValue("@Id", item.Id);
-                    cmd.Parameters.AddWithValue("@FoodItem", item.FoodItem);
+                    cmd.Parameters.AddWithValue("@Name", item.Name);
                     cmd.Parameters.AddWithValue("@UserId", item.UserId);
                     cmd.ExecuteNonQuery();
                     //item.Id = (int)cmd.ExecuteScalar();
@@ -761,11 +761,6 @@ namespace RestaurantTinder.Database
             item.Longitude = Convert.ToDecimal(reader["Longitude"]);
 
             return item;
-        }
-
-        public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
