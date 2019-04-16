@@ -11,6 +11,7 @@ using RestaurantService.Security;
 using RestaurantTinder.Interfaces;
 using RestaurantTinder.Models;
 using RestTinderWebAPI.Models;
+using RestTinderWebAPI.ViewModels;
 
 namespace RestTinderWebAPI.Controllers
 {
@@ -37,7 +38,7 @@ namespace RestTinderWebAPI.Controllers
         {
             // Assume the user is not authorized
             IActionResult result = Unauthorized();
-
+            
             try
             {
                 LoginUser(info.UserName, info.Password);
@@ -53,6 +54,7 @@ namespace RestTinderWebAPI.Controllers
 
                 // Switch to 200 OK
                 result = Ok(token);
+
             }
 
             return result;
@@ -89,21 +91,26 @@ namespace RestTinderWebAPI.Controllers
         }
         [HttpGet]
         [Route("api/preference")]
-        public ActionResult<IEnumerable<UserItem>> GetUserPref(UserItem user)
+        public ActionResult<IEnumerable<UserItem>> GetUserPref()
         {
-            var result = Json(_db.GetPreferredFoodItems(user.Id));
+            var result = Json(_db.GetPreferredFoodItems(CurrentUser.Id));
             return GetAuthenticatedJson(result, (Role.IsCustomer));
         }
         [HttpPost]
         [Route("api/savepreference")]
-        public ActionResult<IEnumerable<UserItem>> SaveUserPref(List<PreferredFoodItem> foodPreferences)
+        public ActionResult<IEnumerable<UserItem>> SaveUserPref([FromBody] PreferenceViewModel foodPreferences)
         {
             JsonResult result = null;
-
-            foreach (var foodItem in foodPreferences)
+            List<PreferredFoodItem> preferredFoodItems = new List<PreferredFoodItem>();
+            foreach (var name in foodPreferences.Names)
             {
-                _db.AddPreferredFoodItem(foodItem);               
+                PreferredFoodItem preferredFood = new PreferredFoodItem();
+                preferredFood.FoodItem = name;
+                preferredFood.UserId = CurrentUser.Id;
+                preferredFoodItems.Add(preferredFood);
             }
+            _db.AddPreferredFoodItems(preferredFoodItems);
+
             return GetAuthenticatedJson(result, (Role.IsCustomer));
         }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using RestaurantService.Exceptions;
 using RestaurantTinder.Database;
-using RestaurantService
+using RestaurantService;
 
 namespace RestaurantTinderIntegrationTests
 {
@@ -68,7 +68,7 @@ namespace RestaurantTinderIntegrationTests
                 temp.Hash = passHelper.Hash;
                 temp.Salt = passHelper.Salt;
                 temp.Email = "garrickkreitzer1@gmail.com";
-                temp.RoleId = (int)RoleManager.eRole.Customer;
+                temp.RoleId = RoleManager.eRole.Customer;
 
                 // Add user item
                 _userId2 = _db.AddUserItem(temp);

@@ -41,6 +41,10 @@ namespace RestaurantTinder.Interfaces
 
         #region PreferredFoodItem
         int AddPreferredFoodItem(PreferredFoodItem item);
+<<<<<<< HEAD
+=======
+        void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods);
+>>>>>>> 5995ff1c3442d3f73b6c9b839bb74d71454bdeb5
         void DeletePreferredFoodItem(int userId, string foodItem);
         PreferredFoodItem GetPreferredFoodItem(int userId);
         List<PreferredFoodItem> GetPreferredFoodItems(int userId);
