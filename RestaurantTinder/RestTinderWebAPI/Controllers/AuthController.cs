@@ -16,7 +16,7 @@ namespace RestTinderWebAPI.Controllers
         /// <summary>
         /// Manages the user authentication and authorization
         /// </summary>
-        private RoleManager _roleMgr = null;
+        protected RoleManager _roleMgr = null;
         protected IRestaurantService _db = null;
         private const string RoleMgrKey = "RoleManager";
         protected ITokenGenerator tokenGenerator = null;
