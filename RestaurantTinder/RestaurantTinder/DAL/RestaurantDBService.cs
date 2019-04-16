@@ -303,19 +303,20 @@ namespace RestaurantTinder.Database
 
         public int AddBlacklistItem(BlacklistItem item)
         {
-            const string sql = "INSERT BlacklistItem (RestaurantId, UserId) " +
-                                               "VALUES (@RestaurantId, @UserId);";
+            const string sql = "INSERT BlacklistItem (Id, RestaurantId, UserId) " +
+                                               "VALUES (@Id, @RestaurantId, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
+                cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
                 cmd.Parameters.AddWithValue("@UserId", item.UserId);
                 cmd.ExecuteNonQuery();
             }
 
-            return item.RestaurantId;
+            return item.Id;
 
         }
 
@@ -323,13 +324,14 @@ namespace RestaurantTinder.Database
         {
             bool isSuccessful = false;
 
-            const string sql = "UPDATE BlacklistItem SET RestaurantId = @RestaurantId WHERE UserId = @UserId;";
+            const string sql = "UPDATE BlacklistItem SET Id = @Id, RestaurantId = @RestaurantId WHERE UserId = @UserId;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
                 cmd.Parameters.AddWithValue("@UserId", item.UserId);
                 if (cmd.ExecuteNonQuery() == 1)
@@ -343,7 +345,7 @@ namespace RestaurantTinder.Database
 
         public void DeleteBlacklistItem(int userId, int restaurantId)
         {
-            const string sql = "DELETE FROM BlacklistItem WHERE userId = @UserId and RestaurantId = @RestaurantId;";
+            const string sql = "DELETE FROM BlacklistItem WHERE userId = @UserId, RestaurantId = @RestaurantId;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -403,6 +405,7 @@ namespace RestaurantTinder.Database
         {
             BlacklistItem item = new BlacklistItem();
 
+            item.Id = Convert.ToInt32(reader["Id"]);
             item.UserId = Convert.ToInt32(reader["UserId"]);
             item.RestaurantId = Convert.ToInt32(reader["RestaurantId"]);
 
@@ -415,25 +418,26 @@ namespace RestaurantTinder.Database
 
         public int AddFavoritesItem(FavoritesItem item)
         {
-            const string sql = "INSERT FavoritesItem (RestaurantId, UserId) " +
-                                   "VALUES (@RestaurantId, @UserId);";
+            const string sql = "INSERT FavoritesItem (Id, RestaurantId, UserId) " +
+                                   "VALUES (@Id, @RestaurantId, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
+                cmd.Parameters.AddWithValue("@Id", item.Id);
                 cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
                 cmd.Parameters.AddWithValue("@UserId", item.UserId);
                 cmd.ExecuteNonQuery();
             }
 
-            return item.RestaurantId;
+            return item.Id;
 
         }
 
         public void DeleteFavoritesItem(int userId, int restaurantId)
         {
-            const string sql = "DELETE FROM FavoritesItem WHERE userId = @UserId and RestaurantId = @RestaurantId;";
+            const string sql = "DELETE FROM FavoritesItem WHERE userId = @UserId, RestaurantId = @RestaurantId;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -493,6 +497,7 @@ namespace RestaurantTinder.Database
         {
             FavoritesItem item = new FavoritesItem();
 
+            item.Id = Convert.ToInt32(reader["Id"]);
             item.UserId = Convert.ToInt32(reader["UserId"]);
             item.RestaurantId = Convert.ToInt32(reader["RestaurantId"]);
 
@@ -505,14 +510,14 @@ namespace RestaurantTinder.Database
 
         public int AddPreferredFoodItem(PreferredFoodItem item)
         {
-            const string sql = "INSERT INTO PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
+            const string sql = "INSERT INTO PreferredFoodItem (Id, Name, UserId) VALUES (@Id, @Name, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
                 cmd.Parameters.AddWithValue("@Id", item.Id);
-                cmd.Parameters.AddWithValue("@FoodItem", item.FoodItem);
+                cmd.Parameters.AddWithValue("@Name", item.Name);
                 cmd.Parameters.AddWithValue("@UserId", item.UserId);
                 item.Id = (int)cmd.ExecuteScalar();
             }
@@ -521,9 +526,9 @@ namespace RestaurantTinder.Database
 
         }
 
-        public void DeletePreferredFoodItem(int userId, string foodItem)
+        public void DeletePreferredFoodItem(int userId, string name)
         {
-            const string sql = "DELETE FROM PreferredFoodItem WHERE foodItem = @FoodItem and userId = @UserId;";
+            const string sql = "DELETE FROM PreferredFoodItem WHERE name = @Name and userId = @UserId;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
@@ -531,7 +536,7 @@ namespace RestaurantTinder.Database
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@FoodItem", foodItem);
+                cmd.Parameters.AddWithValue("@Name", name);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -583,7 +588,7 @@ namespace RestaurantTinder.Database
             PreferredFoodItem item = new PreferredFoodItem();
 
             item.UserId = Convert.ToInt32(reader["UserId"]);
-            item.FoodItem = Convert.ToString(reader["FoodItem"]);
+            item.Name = Convert.ToString(reader["Name"]);
 
             return item;
         }
@@ -733,6 +738,11 @@ namespace RestaurantTinder.Database
             item.Longitude = Convert.ToDecimal(reader["Longitude"]);
 
             return item;
+        }
+
+        public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
