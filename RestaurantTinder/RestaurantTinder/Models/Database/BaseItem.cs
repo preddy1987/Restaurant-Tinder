@@ -9,5 +9,8 @@ namespace RestaurantTinder.Models
         public const int InvalidId = -1;
 
         public int Id { get; set; } = InvalidId;
+
+        public const int InvalidZip = -1;
+
     }
 }

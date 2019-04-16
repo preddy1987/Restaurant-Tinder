@@ -57,7 +57,7 @@ namespace RestaurantTinder.Interfaces
         #endregion
 
         #region ZipItem
-        ZipItem GetZipItem(int zipCode);
+        ZipItem GetZipItem(int zip);
         #endregion
     }
 }
