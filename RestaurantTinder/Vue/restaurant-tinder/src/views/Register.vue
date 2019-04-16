@@ -6,6 +6,9 @@
         <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
         <h4 style="text-align:center">Please Sign Up</h4>
       </div>
+      <div class="alert alert-danger" role="alert" v-if="registrationErrors">
+        There were problems registering this user.
+      </div>
        <div class="container">
         <label for="username" class="sr-only">Username</label>
         <input
@@ -85,6 +88,7 @@
 </template>
 
 <script>
+import auth from '../auth';
 import Test from '../layouts/DefaultLayout.vue'
 export default {
   name: 'register',
@@ -115,15 +119,23 @@ export default {
         },
         body: JSON.stringify(this.user),
       })
-        .then((response) => {
+           .then((response) => {
           if (response.ok) {
-            this.$router.push({ path: '/userpreferences'});
+            return response.text();
           } else {
             this.registrationErrors = true;
           }
         })
-
-        .then((err) => console.error(err));
+        .then((token) => {
+          if (token != undefined) {
+            if (token.includes('"')) {
+              token = token.replace(/"/g, '');
+            }
+            auth.saveToken(token);
+            this.$router.push('/main');
+          }
+        })
+        .catch((err) => console.error(err));
     },
     documentClick(e){
     let el =  document.getElementById('modal-wrapper');

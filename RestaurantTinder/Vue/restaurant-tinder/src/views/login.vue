@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import auth from '../auth';
 import Test from '../layouts/DefaultLayout.vue'
 export default {
   name: 'login',
@@ -65,13 +66,23 @@ export default {
         },
         body: JSON.stringify(this.user),
       })
-        .then((response) => {
+       .then((response) => {
           if (response.ok) {
-            this.$router.push({ path: '/userpreferences'});
+            return response.text();
           } else {
             this.invalidCredentials = true;
           }
         })
+         .then((token) => {
+          if (token != undefined) {
+            if (token.includes('"')) {
+              token = token.replace(/"/g, '');
+            }
+            auth.saveToken(token);
+            this.$router.push('/main');
+          }
+        })
+        .catch((err) => console.error(err));
     },
      documentClick(e){
         let el =  document.getElementById('modal-wrapper');

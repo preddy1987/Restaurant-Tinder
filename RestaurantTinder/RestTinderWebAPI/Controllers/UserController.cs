@@ -4,7 +4,10 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantService;
+using RestaurantService.Security;
 using RestaurantTinder.Interfaces;
 using RestaurantTinder.Models;
 using RestTinderWebAPI.Models;
@@ -13,9 +16,10 @@ namespace RestTinderWebAPI.Controllers
 {
     public class UserController : AuthController
     {
-        public UserController(IRestaurantService db, IHttpContextAccessor httpContext) : base(db, httpContext)
-        {
 
+        public UserController(IRestaurantService db, IHttpContextAccessor httpContext, ITokenGenerator tokenGenerator) : base(db, httpContext, tokenGenerator)
+        {
+            
         }
         
         [HttpGet]
@@ -24,36 +28,58 @@ namespace RestTinderWebAPI.Controllers
         {
             var result = Json(_db.GetUserItems());
             return GetAuthenticatedJson(result, (Role.IsExecutive || Role.IsAdministrator));
+            
         }
 
         [HttpPost]
         [Route("api/login")]
-        public ActionResult<StatusViewModel> Login([FromBody] LoginViewModel info)
+        public IActionResult Login([FromBody] LoginViewModel info)
         {
-            StatusViewModel result = new StatusViewModel();
+            // Assume the user is not authorized
+            IActionResult result = Unauthorized();
 
             try
             {
                 LoginUser(info.UserName, info.Password);
             }
-            catch(Exception ex)
+            catch(Exception )
             {
-                result.IsSuccessful = false;
-                result.Message = ex.Message;
+             
+            }
+            // Get the user by username
+            var user = _db.GetUserItem(info.UserName);
+
+            // If we found a user and the password has matches
+
+            PasswordManager passHelper = null;
+            try
+            {
+                 passHelper = new PasswordManager(info.Password, user.Salt);
+            }
+            catch
+            {
+
+            }
+            if (user != null && passHelper.Verify(user.Hash))
+            {
+                // Create an authentication token
+                var token = tokenGenerator.GenerateToken(user.Username, user.RoleId);
+
+                // Switch to 200 OK
+                result = Ok(token);
             }
 
-            return Json(result);
+            return result;
         }
 
         [HttpPost]
         [Route("api/register")]
-        public ActionResult<StatusViewModel> Register([FromBody] RegisterViewModel info)
+        public IActionResult Register([FromBody] RegisterViewModel info)
         {
-            StatusViewModel result = new StatusViewModel();
+               var user = new User();
 
             try
             {
-                var user = new User();
                 user.ConfirmPassword = info.ConfirmPassword;
                 user.Email = info.Email;
                 user.FirstName = info.FirstName;
@@ -61,16 +87,20 @@ namespace RestTinderWebAPI.Controllers
                 user.Password = info.Password;
                 user.Username = info.Username;
                 user.ZipCode = info.ZipCode;
+                user.RoleId = "Customer";
 
                 RegisterUser(user);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                result.IsSuccessful = false;
-                result.Message = ex.Message;
+                return BadRequest(new
+                {
+                    Message = "Username has already been taken."
+                });
             }
+            var token = tokenGenerator.GenerateToken(user.Username, user.RoleId);
 
-            return Json(result);
+            return Ok(token);
         }
 
 

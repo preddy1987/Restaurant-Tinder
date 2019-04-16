@@ -9,11 +9,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <li class="nav-item"  v-if="!test">
              <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
           </li>
+           <li class="nav-item" @click="logout" v-if="test">
+              <a class="nav-link"  href="#">Logout</a>
+          </li>
           <li class="nav-item"> 
-             <router-link class="nav-link" :to="{ name: 'userpreferences' }">Preferences</router-link>
+             <router-link class="nav-link" v-if="test" :to="{ name: 'userpreferences' }">Preferences</router-link>
           </li>
         </ul>
       </div>
@@ -25,7 +28,7 @@
       <div class="container">
         <h1 class="masthead-heading mb-0">Hunger is a terrible</h1>
         <h1 class="masthead-subheading mb-0">thing to waste</h1>
-         <router-link class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'register' }">Sign Up</router-link>
+         <router-link v-if="!test" class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'register' }">Sign Up</router-link>
       </div>
     </div>
   </header>
@@ -39,9 +42,33 @@
 </template>
 
 <script>
+import auth from '../auth';
 export default {
-
+name: 'Landing',
+  components: {
+  },
+  data() {
+     return {
+      test: false,
+    };
+  },
+   methods: {
+      logout() {
+      auth.logout();
+      this.$router.go('/');
+    },
+   },
+    created() { 
+      let getUser = auth.getUser();
+      if(getUser){
+        this.test = true;
+      }
+      else{
+        this.test = false;
+      }
+    }
 }
+
 </script>
 
 <style scoped>

@@ -1,51 +1,15 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Extensions.Logging;
-//using Microsoft.Extensions.Options;
-
-//namespace RestTinderWebAPI
-//{
-//    public class Startup
-//    {
-//        public Startup(IConfiguration configuration)
-//        {
-//            Configuration = configuration;
-//        }
-
-//        public IConfiguration Configuration { get; }
-
-//        // This method gets called by the runtime. Use this method to add services to the container.
-//        public void ConfigureServices(IServiceCollection services)
-//        {
-//            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-//        }
-
-//        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-//        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-//        {
-//            if (env.IsDevelopment())
-//            {
-//                app.UseDeveloperExceptionPage();
-//            }
-
-//            app.UseMvc();
-//        }
-//    }
-//}
+﻿
 using System;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using RestaurantService.Security;
 using RestaurantTinder.Database;
 using RestaurantTinder.Interfaces;
 
@@ -79,13 +43,32 @@ namespace RestTinderWebAPI
 
             services.AddCors();
 
+            // Enables automatic authentication token.
+            // The token is expected to be included as a bearer authentication token.
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    // The rules for token validation
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,                 // issuer not required
+                        ValidateAudience = false,               // audience not required
+                        ValidateLifetime = true,                // token must not have expired
+                        ValidateIssuerSigningKey = true,        // token signature must match so as not to be tampered with
+                        NameClaimType = System.Security.Claims.ClaimTypes.NameIdentifier,   // allows us to use sub for username
+                        RoleClaimType = "rol",                  // allows us to put the role in rol
+                        IssuerSigningKey = new SymmetricSecurityKey(    // each token is signed with a private key so as to ensure its validity
+                            Encoding.UTF8.GetBytes(Configuration["JwtSecret"]))
+                    };
+                });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddScoped<IRestaurantService>(m => new RestaurantDBService(connectionString));
-            
-            //services.AddScoped<IVendingService>(m => new MockVendingDBService(connectionString));
+            services.AddSingleton<ITokenGenerator>(tk => new JwtGenerator(Configuration["JwtSecret"]));
+
 
         }
 

@@ -48,8 +48,8 @@ namespace RestaurantService
         /// <param name="salt">The salt used to create the original hash</param>
         public PasswordManager(string password, string salt)
         {
-            Salt = salt;
-            Hash = GenerateHash(password, salt, WorkFactor);
+                Salt = salt;
+                Hash = GenerateHash(password, salt, WorkFactor);
         }
 
         /// <summary>

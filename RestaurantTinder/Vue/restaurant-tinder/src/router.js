@@ -3,7 +3,10 @@ import Router from 'vue-router';
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Landing from './views/Landing.vue'
+import Main from './views/Main.vue'
 import UserPreferences from './views/UserPreferences.vue'
+
+import auth from './auth';
 
 Vue.use(Router);
 
@@ -30,8 +33,26 @@ const router = new Router({
       path: '/userpreferences',
       name: 'userpreferences',
       component: UserPreferences,
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: Main,
     }
   ],
 })
+
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login', '/register', '/'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = auth.getUser();
+
+  if (authRequired && !loggedIn) {
+    return next('/');
+  }
+
+  next();
+});
 
 export default router;

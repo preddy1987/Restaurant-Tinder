@@ -13,7 +13,7 @@ namespace RestaurantTinder.Models
         public string Hash { get; set; }
         public string Salt { get; set; }
         public int ZipCode { get; set; }
-        public int RoleId { get; set; }
+        public string RoleId { get; set; }
 
         public UserItem Clone()
         {

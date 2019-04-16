@@ -152,26 +152,26 @@ namespace RestaurantTinder.Database
         {
             UserItem user = null;
             const string sql = "SELECT * From [User] WHERE Username = @Username;";
-
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            try
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Username", username);
-                var reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlConnection conn = new SqlConnection(_connectionString))
                 {
-                    user = GetUserItemFromReader(reader);
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    var reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        user = GetUserItemFromReader(reader);
+                    }
                 }
+                  return user;
             }
-
-            if (user == null)
+            catch (SqlException ex)
             {
-                throw new Exception("User does not exist.");
+                throw ex;
             }
-
-            return user;
         }
 
         private UserItem GetUserItemFromReader(SqlDataReader reader)
@@ -186,7 +186,7 @@ namespace RestaurantTinder.Database
             item.Salt = Convert.ToString(reader["Salt"]);
             item.Hash = Convert.ToString(reader["Hash"]);
             item.ZipCode = Convert.ToInt32(reader["ZipCode"]);
-            item.RoleId = Convert.ToInt32(reader["RoleId"]);
+            item.RoleId = Convert.ToString(reader["RoleId"]);
 
             return item;
         }

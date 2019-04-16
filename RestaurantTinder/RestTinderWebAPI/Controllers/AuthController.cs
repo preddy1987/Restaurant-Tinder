@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantService;
 using RestaurantService.Exceptions;
+using RestaurantService.Security;
 using RestaurantTinder.Interfaces;
 using RestaurantTinder.Models;
 using SessionControllerData;
@@ -18,10 +19,12 @@ namespace RestTinderWebAPI.Controllers
         private RoleManager _roleMgr = null;
         protected IRestaurantService _db = null;
         private const string RoleMgrKey = "RoleManager";
-
-        public AuthController(IRestaurantService db, IHttpContextAccessor httpContext) : base(httpContext)
+        protected ITokenGenerator tokenGenerator = null;
+        public AuthController(IRestaurantService db, IHttpContextAccessor httpContext, ITokenGenerator tokenGenerator) : base(httpContext)
         {
             _db = db;
+
+            this.tokenGenerator = tokenGenerator;
 
             // Get the role manager from the session
             _roleMgr = GetSessionData<RoleManager>(RoleMgrKey);
@@ -104,7 +107,7 @@ namespace RestTinderWebAPI.Controllers
                 ZipCode = userModel.ZipCode,
                 Salt = passHelper.Salt,
                 Hash = passHelper.Hash,
-                RoleId = (int)RoleManager.eRole.Customer
+                RoleId = RoleManager.eRole.Customer.ToString()
             };
 
             _db.AddUserItem(newUser);
