@@ -102,7 +102,25 @@ namespace RestTinderWebAPI.Controllers
 
             return Ok(token);
         }
+        [HttpGet]
+        [Route("api/preference")]
+        public ActionResult<IEnumerable<UserItem>> GetUserPref(UserItem user)
+        {
+            var result = Json(_db.GetPreferredFoodItems(user.Id));
+            return GetAuthenticatedJson(result, (Role.IsCustomer));
+        }
+        [HttpPost]
+        [Route("api/savepreference")]
+        public ActionResult<IEnumerable<UserItem>> SaveUserPref(List<PreferredFoodItem> foodPreferences)
+        {
+            JsonResult result = null;
 
+            foreach (var foodItem in foodPreferences)
+            {
+                _db.AddPreferredFoodItem(foodItem);               
+            }
+            return GetAuthenticatedJson(result, (Role.IsCustomer));
+        }
 
     }
 }

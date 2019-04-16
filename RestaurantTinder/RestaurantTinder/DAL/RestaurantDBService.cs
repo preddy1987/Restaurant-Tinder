@@ -431,28 +431,6 @@ namespace RestaurantTinder.Database
 
         }
 
-        public bool UpdateFavoritesItem(FavoritesItem item)
-        {
-            bool isSuccessful = false;
-
-            const string sql = "UPDATE FavoritesItem SET RestaurantId = @RestaurantId WHERE UserId = @UserId;";
-
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@RestaurantId", item.RestaurantId);
-                cmd.Parameters.AddWithValue("@UserId", item.UserId);
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    isSuccessful = true;
-                }
-            }
-
-            return isSuccessful;
-        }
-
         public void DeleteFavoritesItem(int userId, int restaurantId)
         {
             const string sql = "DELETE FROM FavoritesItem WHERE userId = @UserId and RestaurantId = @RestaurantId;";
@@ -527,7 +505,7 @@ namespace RestaurantTinder.Database
 
         public int AddPreferredFoodItem(PreferredFoodItem item)
         {
-            const string sql = "INSERT PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
+            const string sql = "INSERT INTO PreferredFoodItem (Id, FoodItem, UserId) VALUES (@Id, @FoodItem, @UserId);";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -541,28 +519,6 @@ namespace RestaurantTinder.Database
 
             return item.Id;
 
-        }
-
-        public bool UpdatePreferredFoodItem(PreferredFoodItem item)
-        {
-            bool isSuccessful = false;
-
-            const string sql = "UPDATE PreferredFoodItem SET FoodItem = @FoodItem WHERE UserId = @UserId;";
-
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                conn.Open();
-
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@FoodItem", item.FoodItem);
-                cmd.Parameters.AddWithValue("@UserId", item.UserId);
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    isSuccessful = true;
-                }
-            }
-
-            return isSuccessful;
         }
 
         public void DeletePreferredFoodItem(int userId, string foodItem)

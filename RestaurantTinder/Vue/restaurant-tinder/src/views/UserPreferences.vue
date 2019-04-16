@@ -81,9 +81,9 @@ name: 'UserPreferences',
         const player = {};
         player.name = this.addPlayerName;
 
-        let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "api/player";
+        let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/savepreference";
 
-        //http://localhost:50260/api/player
+        //http://localhost:50260/api/savepreference
         fetch(ajaxURL, {
             method: 'post',
             headers: {
@@ -95,9 +95,7 @@ name: 'UserPreferences',
             return response.json();
         })
         .then((data) => {
-            window.console.log(data);
-            this.updateRemainingDice(data.turnStatus.remainingDice);
-            this.getPlayers();         
+            window.console.log(data);       
         })
         .catch((error) => {
             window.console.log('Error:', error);
@@ -105,6 +103,9 @@ name: 'UserPreferences',
         },
         UpdatePrefs(){
             this.prefsToAdd.push({name: this.preference});
+        },
+        GetCurrentPrefs() {
+
         }
     }
 }
