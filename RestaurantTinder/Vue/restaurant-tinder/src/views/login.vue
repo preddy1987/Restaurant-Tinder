@@ -6,6 +6,9 @@
         <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
         <h1 style="text-align:center">Please Sign In</h1>
       </div>
+       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
+        Invalid username and password!
+      </div>
 
       <div class="container">
         <label for="username" class="sr-only">Username</label>
@@ -27,7 +30,7 @@
             v-model="user.password"
             required
           />     
-          <button @click="login" class="btn btn-primary btn-lg" type="submit">
+          <button  class="btn btn-primary btn-lg" type="submit">
           Sign in
         </button>
       </div>
@@ -64,7 +67,7 @@ export default {
       })
         .then((response) => {
           if (response.ok) {
-            return response.text();
+            this.$router.push({ path: '/userpreferences'});
           } else {
             this.invalidCredentials = true;
           }
@@ -173,7 +176,8 @@ button:hover {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
-}
+  
+  }
   .modal-content {
   background-color: #fefefe;
   margin: 4% auto 15% auto;
@@ -181,7 +185,7 @@ button:hover {
   width: 100%;
   height: 100%;
 	padding-bottom: 30px;
-}
+ }
   
 }
 @keyframes zoom {

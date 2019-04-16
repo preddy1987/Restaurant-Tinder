@@ -14,6 +14,7 @@
     "bootstrap-vue": "^2.0.0-rc.18",
     "core-js": "^2.6.5",
     "jquery": "^3.4.0",
+    "startbootstrap-one-page-wonder": "^5.0.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.4"
   },
