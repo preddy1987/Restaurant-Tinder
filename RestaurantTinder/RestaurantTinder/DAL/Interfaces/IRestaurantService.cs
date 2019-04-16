@@ -10,9 +10,9 @@ namespace RestaurantTinder.Interfaces
         #region UserItem
         int AddUserItem(UserItem item);
         bool UpdateUserItem(UserItem item);
-        void DeleteUserItem(int userId);
-        UserItem GetUserItem(int userId);
-        UserItem GetUserItem(string userName);
+        void DeleteUserItem(int id);
+        UserItem GetUserItem(int id);
+        UserItem GetUserItem(string name);
         List<UserItem> GetUserItems();
         #endregion
 

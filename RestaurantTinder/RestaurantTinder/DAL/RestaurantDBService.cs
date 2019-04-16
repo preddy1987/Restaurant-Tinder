@@ -88,7 +88,7 @@ namespace RestaurantTinder.Database
             return isSuccessful;
         }
 
-        public void DeleteUserItem(int userId)
+        public void DeleteUserItem(int id)
         {
             const string sql = "DELETE FROM [User] WHERE Id = @Id;";
 
@@ -97,12 +97,12 @@ namespace RestaurantTinder.Database
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Id", userId);
+                cmd.Parameters.AddWithValue("@Id", id );
                 cmd.ExecuteNonQuery();
             }
         }
 
-        public UserItem GetUserItem(int userId)
+        public UserItem GetUserItem(int id)
         {
             UserItem user = null;
             const string sql = "SELECT * From [User] WHERE Id = @Id;";
@@ -111,7 +111,7 @@ namespace RestaurantTinder.Database
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@Id", userId);
+                cmd.Parameters.AddWithValue("@Id", id);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
@@ -529,7 +529,11 @@ namespace RestaurantTinder.Database
         public void AddPreferredFoodItems(List<PreferredFoodItem> preferredFoods)
         {
 
+<<<<<<< HEAD
+            const string sql = "INSERT INTO PreferredFoodItem (Id, Name, UserId) VALUES (@Id, @Name, @UserId);";
+=======
             const string sql = "INSERT INTO PreferredFood (Name, UserId) VALUES (@Name, @UserId);";
+>>>>>>> a56ec6e8883b856faa4d60fc2a2b61319d5acbc8
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -537,7 +541,11 @@ namespace RestaurantTinder.Database
                 SqlCommand cmd = new SqlCommand(sql + _getLastIdSQL, conn);
                 foreach (var item in preferredFoods)
                 {
+<<<<<<< HEAD
+                    cmd.Parameters.AddWithValue("@Id", item.Id);
+=======
                     //cmd.Parameters.AddWithValue("@Id", item.Id);
+>>>>>>> a56ec6e8883b856faa4d60fc2a2b61319d5acbc8
                     cmd.Parameters.AddWithValue("@Name", item.Name);
                     cmd.Parameters.AddWithValue("@UserId", item.UserId);
                     item.Id = (int)cmd.ExecuteScalar();
@@ -761,6 +769,10 @@ namespace RestaurantTinder.Database
 
             return item;
         }
+<<<<<<< HEAD
+
+=======
+>>>>>>> a56ec6e8883b856faa4d60fc2a2b61319d5acbc8
         #endregion
     }
 }
