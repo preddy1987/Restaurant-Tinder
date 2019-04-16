@@ -6,12 +6,15 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using RestaurantService;
 using RestaurantService.Security;
 using RestaurantTinder;
 using RestaurantTinder.Interfaces;
-using RestaurantTinder.Models.API_Models;
+using RestaurantTinder.Models;
+using RestTinderWebAPI.Models;
 
 namespace RestTinderWebAPI.Controllers
 {
@@ -19,6 +22,7 @@ namespace RestTinderWebAPI.Controllers
     [ApiController]
     public class MainController : AuthController
     {
+
         public MainController(IRestaurantService db, IHttpContextAccessor httpContext, ITokenGenerator tokenGenerator) : base(db, httpContext, tokenGenerator)
         {
 
@@ -28,12 +32,20 @@ namespace RestTinderWebAPI.Controllers
         [HttpGet]
         public ActionResult<JObject> Index()
         {
-            string testURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=39.325714,-84.552390&radius=50000&type=restaurant&keyword=mexican&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
+            var zip = _db.GetZipItem(CurrentUser.ZipCode);
+            var foodItem = _db.GetFavoritesItems(CurrentUser.Id);
+            dynamic obj = null;
 
-            string json = HttpGet(testURL);
+            foreach (var item in foodItem)
+            {
+                string testURL = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={{zip.Latitude}},{{zip.Longitude}}&radius=50000&type=restaurant&keyword={{item}}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
 
-            dynamic obj = JObject.Parse(json);
+                string json = HttpGet(testURL);
 
+                obj = JObject.Parse(json);
+
+                
+            }
             return obj;
         }
 
@@ -58,5 +70,7 @@ namespace RestTinderWebAPI.Controllers
                 response.Close();
             }
         }
+
+
     }
 }

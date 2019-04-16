@@ -47,24 +47,10 @@ namespace RestTinderWebAPI.Controllers
             {
              
             }
-            // Get the user by username
-            var user = _db.GetUserItem(info.UserName);
-
-            // If we found a user and the password has matches
-
-            PasswordManager passHelper = null;
-            try
-            {
-                 passHelper = new PasswordManager(info.Password, user.Salt);
-            }
-            catch
-            {
-
-            }
-            if (user != null && passHelper.Verify(user.Hash))
+            if (_roleMgr.User != null )
             {
                 // Create an authentication token
-                var token = tokenGenerator.GenerateToken(user.Username, user.RoleId);
+                var token = tokenGenerator.GenerateToken(_roleMgr.User);
 
                 // Switch to 200 OK
                 result = Ok(token);
@@ -78,10 +64,11 @@ namespace RestTinderWebAPI.Controllers
         [Route("api/register")]
         public IActionResult Register([FromBody] RegisterViewModel info)
         {
-               var user = new User();
+               
 
             try
             {
+                var user = new User();
                 user.ConfirmPassword = info.ConfirmPassword;
                 user.Email = info.Email;
                 user.FirstName = info.FirstName;
@@ -89,8 +76,6 @@ namespace RestTinderWebAPI.Controllers
                 user.Password = info.Password;
                 user.Username = info.Username;
                 user.ZipCode = info.ZipCode;
-                user.RoleId = "Customer";
-
                 RegisterUser(user);
             }
             catch (Exception )
@@ -100,7 +85,7 @@ namespace RestTinderWebAPI.Controllers
                     Message = "Username has already been taken."
                 });
             }
-            var token = tokenGenerator.GenerateToken(user.Username, user.RoleId);
+            var token = tokenGenerator.GenerateToken(_roleMgr.User);
 
             return Ok(token);
         }

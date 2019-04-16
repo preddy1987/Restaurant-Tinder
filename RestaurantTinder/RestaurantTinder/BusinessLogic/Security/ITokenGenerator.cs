@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestaurantTinder.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,6 @@ namespace RestaurantService.Security
         /// <param name="username">The user's username</param>
         /// <param name="role">The user's role</param>
         /// <returns></returns>
-        string GenerateToken(string username, string role);
+        string GenerateToken(UserItem user);
     }
 }

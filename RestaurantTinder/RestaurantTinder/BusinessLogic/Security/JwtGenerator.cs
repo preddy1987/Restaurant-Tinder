@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using RestaurantTinder.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -28,7 +29,7 @@ namespace RestaurantService.Security
         /// <param name="username"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        public string GenerateToken(string username, string role)
+        public string GenerateToken(UserItem user)
         {
             // Creates the sample token to send to the client.
             /*
@@ -42,8 +43,10 @@ namespace RestaurantService.Security
 
             var claims = new[]
             {
-                new Claim("sub", username),
-                new Claim("rol", role),
+                new Claim("sub", user.Username),
+                new Claim("rol", user.RoleId),
+                new Claim("id", user.Id.ToString()),
+                new Claim("zip", user.ZipCode.ToString()),
                 new Claim("iat", DateTimeOffset.Now.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
             };
 

@@ -46,7 +46,8 @@ namespace RestTinderWebAPI.Controllers
         {
             get
             {
-                return _roleMgr.User;
+                //return _roleMgr.User;
+                return _db.GetUserItem(base.User.Identity.Name);
             }
         }
 

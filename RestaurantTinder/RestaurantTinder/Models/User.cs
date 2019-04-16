@@ -13,7 +13,6 @@ namespace RestaurantTinder.Models
         public string Password { get; set; }
         public int ZipCode { get; set; }
         public string ConfirmPassword { get; set; }
-        public string RoleId { get; set; }
     }
 }
 
