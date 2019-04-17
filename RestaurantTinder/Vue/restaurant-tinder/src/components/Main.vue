@@ -17,7 +17,7 @@
         <p @click="LoadDetails(item.reference)">
           {{item.name}}
         </p>
-        <div>{{item.photos[0].photo_reference}}</div>
+        <!-- <div>{{item.photos[0].photo_reference}}</div> -->
       </b-carousel-slide>
       <a href="#"  @click="reject"  class="carousel-control-prev"><span  class="carousel-control-prev-icon"></span><span class="sr-only">Previous Slide</span></a>
       <a href="#" @click="like" class="carousel-control-next"><span  class="carousel-control-next-icon"></span><span class="sr-only">Next Slide</span></a>
@@ -103,8 +103,9 @@ LoadDetails(vm){
           return response.json();
         })
         .then((data) => {
-          this.detail = data;
-          this.$router.push('/details');
+          // this.detail = data;
+          let detail = data.result;
+          this.$router.push({name: 'details', params: {detail:detail}});
         })
         .catch((err) => console.error(err));
     }
@@ -158,13 +159,13 @@ LoadDetails(vm){
   height: 88vh;
 }
 .carousel-control-next-icon {
-  background-image: url("../assets/check.jpg")!important;
+  background-image: url("../assets/checkt.png")!important;
   width: 50px !important;
   height: 50px !important;
 }
 
 .carousel-control-prev-icon {
-  background-image: url("../assets/x.jpg")!important;
+  background-image: url("../assets/xt.png")!important;
   width: 50px !important;
   height: 50px !important;
 }
