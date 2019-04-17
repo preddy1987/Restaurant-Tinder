@@ -11,7 +11,7 @@
                 <li class="list-group-item" v-for="pref in currentPrefsList" :key="pref.id">{{ pref.name }}</li>
             </ul>
         </div>
-        <form class="form-preferences" @submit.prevent="SavePrefs">
+        <form id="form" class="form-preferences" @submit.prevent.stop="SavePrefs">
             <h1 class="mb-3">Add a food preference here</h1>
             <div class="alert alert-danger" role="alert" v-if="registrationErrors">
                 There were problems registering this user.
@@ -82,14 +82,11 @@ name: 'UserPreferences',
           })
           .then((data) => {
               window.console.log(data);
-              this.GetCurrentPrefs();       
+              this.GetCurrentPrefs();                   
           })
           .catch((error) => {
               window.console.log('Error:', error);
           });
-        },
-        UpdatePrefs(){
-            this.prefsToAdd.push({name: this.preference});
         },
         GetCurrentPrefs() {
           let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/preferences";
@@ -186,7 +183,7 @@ form {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-#preferences ul{
+.preferences ul{
   margin-bottom: 5px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;

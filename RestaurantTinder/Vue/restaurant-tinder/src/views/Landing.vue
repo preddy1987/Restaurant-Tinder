@@ -9,21 +9,21 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item"  v-if="!test">
+          <li class="nav-item"  v-if="!hasUser">
              <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
           </li>
-           <li class="nav-item" @click="logout" v-if="test">
+           <li class="nav-item" @click="logout" v-if="hasUser">
               <a class="nav-link"  href="#">Logout</a>
           </li>
           <li class="nav-item"> 
-             <router-link class="nav-link" v-if="test" :to="{ name: 'userpreferences' }">Preferences</router-link>
+             <router-link class="nav-link" v-if="hasUser" :to="{ name: 'userpreferences' }">Preferences</router-link>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <main-view v-if="test"></main-view>
-  <header v-if="!test" class="masthead text-center text-white">
+  <main-view v-if="hasUser"></main-view>
+  <header v-if="!hasUser" class="masthead text-center text-white">
     <div class="masthead-content">
       <div class="container">
         <h1 class="masthead-heading mb-0">Hunger is a terrible</h1>
@@ -51,7 +51,7 @@ name: 'Landing',
   },
   data() {
      return {
-      test: false,
+      hasUser: false,
     };
   },
    methods: {
@@ -63,10 +63,10 @@ name: 'Landing',
     created() { 
       let getUser = auth.getUser();
       if(getUser){
-        this.test = true;
+        this.hasUser = true;
       }
       else{
-        this.test = false;
+        this.hasUser = false;
       }
     }
 }

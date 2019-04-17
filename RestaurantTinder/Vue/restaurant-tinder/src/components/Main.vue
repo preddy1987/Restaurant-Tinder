@@ -12,11 +12,11 @@
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
-      v-for="item in justResults" :key="item.id"  
+      v-for="item in justResults" :key="item.reference"  
       img-blank img-alt="Blank image"
-
+      
       >
-        <p>
+        <p @click="LoadDetails(item.reference)">
           {{item.name}}
         </p>
       </b-carousel-slide>
@@ -62,7 +62,7 @@ export default {
      }, 
   },
    created() {
-    fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/`, {
+    fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/search`, {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + auth.getToken(),

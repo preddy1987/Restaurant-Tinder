@@ -18,8 +18,6 @@ using RestTinderWebAPI.Models;
 
 namespace RestTinderWebAPI.Controllers
 {
-    [Route("api/main")]
-    [ApiController]
     public class MainController : AuthController
     {
 
@@ -28,7 +26,7 @@ namespace RestTinderWebAPI.Controllers
 
         }
 
-
+        [Route("api/main/search")]
         [HttpGet]
         public ActionResult<List<JObject>> Index()
         {
@@ -49,6 +47,26 @@ namespace RestTinderWebAPI.Controllers
             return jb;
         }
 
+        [Route("api/main/details")]
+        [HttpGet]
+        public ActionResult<List<JObject>> Details()
+        {
+            var zip = _db.GetZipItem(CurrentUser.ZipCode);
+            var foodItem = _db.GetPreferredFoodItems(CurrentUser.Id);
+            List<JObject> jb = new List<JObject>();
+
+            foreach (var item in foodItem)
+            {
+                string testURL = $"https://maps.googleapis.com/maps/api/place/details/json?&placeid=&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
+
+                string json = HttpGet(testURL);
+
+                jb.Add(JObject.Parse(json));
+
+
+            }
+            return jb;
+        }
 
 
         public string HttpGet(string url)
