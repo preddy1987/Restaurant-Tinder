@@ -1,6 +1,11 @@
 <template>
-    <div id="preferences">
-        <div class="form-preferences " id="current-preferences">
+<layout>
+<div id="modal-wrapper" class="modal" @click='documentClick'>
+    <div id="preferences" class="modal-content animate"  >
+      <div class="imgcontainer">
+      <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
+      </div>
+        <div class="form-preferences" id="current-preferences">
             <h1 class="mb-3 " >Your Current Preferences</h1>
             <ul class="list-group" >
                 <li class="list-group-item" v-for="pref in currentPrefsList" :key="pref.id">{{ pref.name }}</li>
@@ -25,13 +30,17 @@
             </button>
         </form>
     </div>
+</div>
+</layout>
 </template>
 
 <script>
 import auth from '../auth';
+import Layout from '../layouts/DefaultLayout.vue'
 export default {
 name: 'UserPreferences',
   components: {
+    Layout
   },
   data() {
     return {
@@ -104,7 +113,13 @@ name: 'UserPreferences',
           .catch((error) => {
               window.console.log('Error:', error);
           });
+        },
+        documentClick(e){
+        let el =  document.getElementById('modal-wrapper');
+        if ( e.target == el ) {
+          this.$router.push('/');
         }
+      }
     },
     created() {
       this.GetCurrentPrefs();
@@ -178,6 +193,54 @@ form {
 }
 #current-preferences{
     text-align: center;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+/* The Modal (background) */
+#modal-wrapper {
+    position: fixed;
+    display: block;
+    z-index: 1;
+    left: 0;
+    top: 5%;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+/* Modal Content Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 4% auto 15% auto;
+  border: 1px solid #888;
+  width: 50%;
+	padding-bottom: 30px;
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+.close:hover,.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    animation: zoom 0.6s
 }
 /* .form-preferences input[type='password'] {
   margin-bottom: 10px;

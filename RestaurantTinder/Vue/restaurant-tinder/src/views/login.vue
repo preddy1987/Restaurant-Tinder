@@ -1,5 +1,5 @@
 <template>
-<test >
+<layout >
   <div id="modal-wrapper" class="modal" @click='documentClick'>
     <form id="test2" class="modal-content animate" @submit.prevent="login">
       <div class="imgcontainer">
@@ -36,16 +36,16 @@
       </div>
       </form>
     </div>
-</test>
+</layout>
 </template>
 
 <script>
 import auth from '../auth';
-import Test from '../layouts/DefaultLayout.vue'
+import Layout from '../layouts/DefaultLayout.vue'
 export default {
   name: 'login',
   components: {
-    Test,
+    Layout,
   },
   data() {
     return {
