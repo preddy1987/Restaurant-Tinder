@@ -17,6 +17,7 @@
         <p @click="LoadDetails(item.reference)">
           {{item.name}}
         </p>
+        <div>{{item.photos[0].photo_reference}}</div>
       </b-carousel-slide>
       <a href="#"  @click="reject"  class="carousel-control-prev"><span  class="carousel-control-prev-icon"></span><span class="sr-only">Previous Slide</span></a>
       <a href="#" @click="like" class="carousel-control-next"><span  class="carousel-control-next-icon"></span><span class="sr-only">Next Slide</span></a>
@@ -42,12 +43,15 @@ export default {
     reject(event){
         let inputNode = document.getElementsByClassName("carousel-item active");
         let rejectedResturant = inputNode[0].innerText;
+        let testwords = tinder.getRejected();
          if(event){
            tinder.destroyRejected();
            if(!this.rejected.includes(rejectedResturant)){
-           this.rejected.push(inputNode[0].innerText)
+           this.rejected.push(rejectedResturant)
            }
-           tinder.saveRejected(this.rejected)
+           let final = this.rejected.concat(testwords);
+           
+           tinder.saveRejected(final)
            inputNode[0].nextElementSibling.className = "carousel-item active";
            inputNode[0].className = "carousel-item";
           }
@@ -55,12 +59,14 @@ export default {
    like(event){
       let inputNode = document.getElementsByClassName("carousel-item active");
       let likedResturant = inputNode[0].innerText;
+      let testwords = tinder.getLiked();
          if(event){
            tinder.destroyLiked();
            if(!this.liked.includes(likedResturant)){
            this.liked.push(inputNode[0].innerText)
            }
-           tinder.saveLiked(this.liked)
+           let final = this.rejected.concat(testwords);
+           tinder.saveLiked(final)
            inputNode[0].nextElementSibling.className = "carousel-item active";
            inputNode[0].className = "carousel-item";
           }
@@ -114,13 +120,14 @@ LoadDetails(vm){
          }
          let wordsToRemove = tinder.getRejected();
          if(wordsToRemove === null){
-            return this.shuffle(newarray);
+            return newarray;
          }
          let filteredKeywords = newarray.filter((word) => !wordsToRemove.includes(word.name));
-         return this.shuffle(filteredKeywords);
+         return filteredKeywords;
      }, 
   },
    created() {
+  if(tinder.getRestaurant() === null){
     fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/search`, {
       method: 'GET',
       headers: {
@@ -133,8 +140,14 @@ LoadDetails(vm){
       })
       .then((data) => {
         this.restaurant = data;
+        this.shuffle(this.restaurant)
+        tinder.saveRestaurant(this.restaurant)
       })
       .catch((err) => console.error(err));
+     }
+     if(tinder.getRestaurant() != null){
+       this.restaurant = tinder.getRestaurant();
+     }
   },
   
 }

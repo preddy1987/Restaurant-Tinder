@@ -59,6 +59,7 @@ name: 'Landing',
       logout() {
       auth.logout();
       tinder.destroyRejected();
+      tinder.destroyRestaurant();
       this.$router.go('/');
     },
    },
