@@ -28,7 +28,7 @@
       <div class="container">
         <h1 class="masthead-heading mb-0">Hunger is a terrible</h1>
         <h1 class="masthead-subheading mb-0">thing to waste</h1>
-         <router-link v-if="!test" class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'register' }">Sign Up</router-link>
+         <router-link  class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'register' }">Sign Up</router-link>
       </div>
     </div>
   </header>
@@ -151,11 +151,11 @@ header.masthead .masthead-content {
 }
 
 header.masthead .masthead-content .masthead-heading {
-  font-size: 5rem;
+  font-size: 4rem!important;
 }
 
 header.masthead .masthead-content .masthead-subheading {
-  font-size: 4rem;
+  font-size: 3rem!important;
 }
 @media (max-width: 800px) {
   header.masthead {
