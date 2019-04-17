@@ -8,12 +8,13 @@
 </template>
 
 <script>
-import Landing from '../views/Landing.vue'
+import Landing from '../views/Landing.vue';
+
 
 export default {
   name: 'DefaultLayout',
   components: {
-    Landing,
+    Landing
   },
 };
 </script>
