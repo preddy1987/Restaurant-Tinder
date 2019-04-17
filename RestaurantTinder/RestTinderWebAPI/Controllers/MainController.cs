@@ -34,8 +34,7 @@ namespace RestTinderWebAPI.Controllers
         {
             var zip = _db.GetZipItem(CurrentUser.ZipCode);
             var foodItem = _db.GetPreferredFoodItems(CurrentUser.Id);
-            //dynamic obj = null;
-            List<JObject> test = new List<JObject>();
+            List<JObject> jb = new List<JObject>();
 
             foreach (var item in foodItem)
             {
@@ -43,10 +42,11 @@ namespace RestTinderWebAPI.Controllers
 
                 string json = HttpGet(testURL);
 
-                test.Add(JObject.Parse(json));
-              
+                jb.Add(JObject.Parse(json));
+
+                
             }
-            return test;
+            return jb;
         }
 
 

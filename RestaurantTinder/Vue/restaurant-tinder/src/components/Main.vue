@@ -2,21 +2,20 @@
  <div>
     <b-carousel
       id="carousel-1"
-      v-model="slide"
       :interval="0"
       controls
-      indicators
       background="#ababab"
-      img-width="1024"
-      img-height="480"
+      img-width="980"
       style="text-shadow: 1px 1px 2px #333;"
-      @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
     >
 
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-      <b-carousel-slide v-for="item in justResults" :key="item.name"  img-blank img-alt="Blank image">
+      <b-carousel-slide 
+      v-for="item in justResults" :key="item.id"  
+      img-blank img-alt="Blank image"
+
+      >
         <p>
           {{item.name}}
         </p>
@@ -83,5 +82,19 @@ export default {
 </script>
 
 <style>
+.carousel-inner img {
+  height: 88vh;
+}
+.carousel-control-next-icon {
+  background-image: url("../assets/check.jpg")!important;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.carousel-control-prev-icon {
+  background-image: url("../assets/x.jpg")!important;
+  width: 50px !important;
+  height: 50px !important;
+}
 
 </style>

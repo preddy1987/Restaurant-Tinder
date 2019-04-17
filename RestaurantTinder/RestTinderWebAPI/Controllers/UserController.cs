@@ -91,28 +91,19 @@ namespace RestTinderWebAPI.Controllers
         }
         [HttpGet]
         [Route("api/preferences")]
-        public ActionResult<IEnumerable<UserItem>> GetUserPref()
+        public ActionResult<List<PreferredFoodItem>> GetUserPref()
         {
-            var result = Json(_db.GetPreferredFoodItems(CurrentUser.Id));
-            return GetAuthenticatedJson(result, (Role.IsCustomer));
+            var result = _db.GetPreferredFoodItems(CurrentUser.Id);
+            return result;
         }
         [HttpPost]
         [Route("api/savepreference")]
-        public ActionResult<IEnumerable<UserItem>> SaveUserPref([FromBody] PreferenceViewModel foodPreferences)
+        public void SaveUserPref([FromBody] string preference)
         {
-            JsonResult result = null;
-            List<PreferredFoodItem> preferredFoodItems = new List<PreferredFoodItem>();
-            foreach (var name in foodPreferences.Names)
-            {
-                PreferredFoodItem preferredFood = new PreferredFoodItem();
-                preferredFood.Name = name;
-                preferredFood.UserId = CurrentUser.Id;
-                preferredFoodItems.Add(preferredFood);
-            }
-            _db.AddPreferredFoodItems(preferredFoodItems);
-
-            return GetAuthenticatedJson(result, (Role.IsCustomer));
+            PreferredFoodItem preferredFood = new PreferredFoodItem();
+            preferredFood.Name = preference;
+            preferredFood.UserId = CurrentUser.Id;
+            _db.AddPreferredFoodItem(preferredFood);
         }
-
     }
 }
