@@ -2,6 +2,26 @@ export default {
     /**
      * Returns the liked resturant from local storage.
      */
+    
+    getRestaurant: function() {
+      try {
+        return JSON.parse(localStorage.getItem('Restaurant'));
+      } catch {
+        return null;
+      }
+    },
+    /**
+     * Parses and saves the liked resturant.
+     * @param {Array} token A JWT encoded token.
+     */
+    saveRestaurant(array) {
+      localStorage.setItem('Restaurant', JSON.stringify(array));
+    },
+
+    destroyRestaurant() {
+      localStorage.removeItem('Restaurant');
+    },
+
     getLiked: function() {
       try {
         return localStorage.getItem('liked');
@@ -38,10 +58,6 @@ export default {
        * @param {Array} token A JWT encoded token.
        */
       saveRejected(array) {
-        const tempArray = this.getRejected();
-        if(tempArray != null){
-        array.push(tempArray);
-        }
         localStorage.setItem('rejected', array);
       },
       /**
