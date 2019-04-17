@@ -3,21 +3,20 @@
     <b-carousel
       id="carousel-1"
       :interval="0"
-      background="#ababab"
-      img-width="980"
       style="text-shadow: 1px 1px 2px #333;"
     
     >
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
-      v-for="item in justResults" :key="item.reference"  
-      img-blank img-alt="Blank image"
-      
+      v-for="item in justResults" :key="item.reference"
+      :img-src="getPhoto(item.photos[0].photo_reference)"  
       >
-        <p @click="LoadDetails(item.reference)">
+        <!-- <div id="main-img">
+          <img :src="getPhoto(item.photos[0].photo_reference)"/>
+        </div> -->
+        <h2 @click="LoadDetails(item.reference)">
           {{item.name}}
-        </p>
-        <div>{{item.photos[0].photo_reference}}</div>
+        </h2>
       </b-carousel-slide>
       <a href="#"  @click="reject"  class="carousel-control-prev"><span  class="carousel-control-prev-icon"></span><span class="sr-only">Previous Slide</span></a>
       <a href="#" @click="like" class="carousel-control-next"><span  class="carousel-control-next-icon"></span><span class="sr-only">Next Slide</span></a>
@@ -85,12 +84,14 @@ export default {
           array[randomIndex] = temporaryValue;
      } 
       return array;
-}
-
+},
+   getPhoto(string){
+     return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${string}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg`
   },
+},
   computed: { 
       justResults(){
-          
+
        let newarray = [];
        for(let i = 0; i < this.restaurant.length; i++){
            newarray = newarray.concat(this.restaurant[i].results)
@@ -117,8 +118,7 @@ export default {
       })
       .then((data) => {
         this.restaurant = data;
-        this.shuffle(this.restaurant)
-        tinder.saveRestaurant(this.restaurant)
+        tinder.saveRestaurant(this.restaurant )
       })
       .catch((err) => console.error(err));
      }
@@ -144,6 +144,13 @@ export default {
   background-image: url("../assets/x.jpg")!important;
   width: 50px !important;
   height: 50px !important;
+}
+#main-img img{
+  width: 100%;
+}
+.carousel-inner img {
+    width: 70%!important;
+    margin-left: 15%!important;
 }
 
 </style>

@@ -68,25 +68,22 @@ namespace RestTinderWebAPI.Controllers
             return jb;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("api/main/img")]
-        public ActionResult<List<JObject>> Image([FromBody] string info)
+        public ActionResult<string> Image([FromBody] string info)
         {
-            var zip = _db.GetZipItem(CurrentUser.ZipCode);
-            var foodItem = _db.GetPreferredFoodItems(CurrentUser.Id);
+    
             List<JObject> jb = new List<JObject>();
 
-            foreach (var item in foodItem)
-            {
-                string testURL = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={zip.Latitude},{zip.Longitude}&radius=50000&type=restaurant&keyword={item.Name}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
+                string testURL = $"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={info}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
 
-                string json = HttpGet(testURL);
+                //string json = HttpGet(testURL);
 
-                jb.Add(JObject.Parse(json));
+                //jb.Add(JObject.Parse(json));
 
 
-            }
-            return jb;
+            
+            return testURL;
 
 
         }
