@@ -39,7 +39,7 @@ namespace RestaurantTinderIntegrationTests
         public void Initialize()
         {
             _db = new RestaurantDBService(_connectionString);
-       
+
 
             // Initialize a new transaction scope. This automatically begins the transaction.
             _tran = new TransactionScope();
@@ -201,7 +201,7 @@ namespace RestaurantTinderIntegrationTests
             bool foundItem = false;
             foreach (var userItem in userItems)
             {
-                if (userItem.Id == id)
+                if (userItem.Id == _userId1)
                 {
                     foundItem = true;
                 }
@@ -247,7 +247,7 @@ namespace RestaurantTinderIntegrationTests
             bool foundItem = false;
             foreach (var restaurantItem in restaurantItems)
             {
-                if (restaurantItem.Id == id)
+                if (restaurantItem.Id == _restaurantId)
                 {
                     foundItem = true;
                 }
@@ -272,26 +272,29 @@ namespace RestaurantTinderIntegrationTests
             Assert.AreEqual(item.Name, itemGet.Name);
             Assert.AreEqual(item.UserId, itemGet.UserId);
 
-            // Test delete preferred food
-            _db.DeletePreferredFoodItem(item.UserId, item.Name);
-            var foods = _db.GetPreferredFoodItems(item.UserId);
-            foreach (var food in foods)
-            {
-                Assert.AreNotEqual(id, food.Id);
-            }
-
             //Test get preferred food items
-            var preferredFoodItems = _db.GetPreferredFoodItems(item.UserId);
+            var foodItems = _db.GetPreferredFoodItems(item.UserId);
             bool foundItem = false;
-            foreach (var preferredFoodItem in preferredFoodItems)
+            foreach (var foodItem in foodItems)
             {
-                if (preferredFoodItem.Id == id)
+                if (foodItem.UserId == _userId1)
                 {
                     foundItem = true;
                 }
             }
             Assert.IsTrue(foundItem);
+
+
+            // Test delete preferred food
+            _db.DeletePreferredFoodItem(item.UserId, item.Name);
+            var foods = _db.GetPreferredFoodItems(item.UserId);
+            foreach (var food in foods)
+            {
+                Assert.AreNotEqual(food.Id, _preferredFoodId);
+            }
+            
         }
+
 
         /// <summary>
         /// Tests the favorites POCO methods
@@ -302,6 +305,8 @@ namespace RestaurantTinderIntegrationTests
             // Test add favorites
             FavoritesItem item = new FavoritesItem();
             item.Id = _favoritesId;
+            item.RestaurantId = _restaurantId;
+            item.UserId = _userId1;
             int id = _db.AddFavoritesItem(item);
             Assert.AreNotEqual(0, id);
 
@@ -310,6 +315,18 @@ namespace RestaurantTinderIntegrationTests
             Assert.AreEqual(item.UserId, itemGet.UserId);
             Assert.AreEqual(item.RestaurantId, itemGet.RestaurantId);
 
+            //Test get favorites items
+            var favoriteItems = _db.GetFavoritesItems(item.UserId);
+            bool foundItem = false;
+            foreach (var favoriteItem in favoriteItems)
+            {
+                if (favoriteItem.UserId == item.UserId)
+                {
+                    foundItem = true;
+                }
+            }
+            Assert.IsTrue(foundItem);
+
             // Test delete favorites
             _db.DeleteFavoritesItem(item.UserId, item.RestaurantId);
             var favoritesItems = _db.GetFavoritesItems(item.UserId);
@@ -317,18 +334,6 @@ namespace RestaurantTinderIntegrationTests
             {
                 Assert.AreNotEqual(id, favoritesItem.Id);
             }
-
-            //Test get favorites items
-            var favoriteItems = _db.GetFavoritesItems(item.UserId);
-            bool foundItem = false;
-            foreach (var favoritesItem in favoriteItems)
-            {
-                if (favoritesItem.Id == id)
-                {
-                    foundItem = true;
-                }
-            }
-            Assert.IsTrue(foundItem);
         }
 
         /// <summary>
@@ -340,6 +345,8 @@ namespace RestaurantTinderIntegrationTests
             // Test add blacklist
             BlacklistItem item = new BlacklistItem();
             item.Id = _blacklistId;
+            item.UserId = _userId1;
+            item.RestaurantId = _restaurantId;
             int id = _db.AddBlacklistItem(item);
             Assert.AreNotEqual(0, id);
 
@@ -348,6 +355,18 @@ namespace RestaurantTinderIntegrationTests
             Assert.AreEqual(item.UserId, itemGet.UserId);
             Assert.AreEqual(item.RestaurantId, itemGet.RestaurantId);
 
+            //Test get blacklist items
+            var blacklistedItems = _db.GetBlacklistItems(item.UserId);
+            bool foundItem = false;
+            foreach (var blacklistItem in blacklistedItems)
+            {
+                if (blacklistItem.UserId == _userId1)
+                {
+                    foundItem = true;
+                }
+            }
+            Assert.IsTrue(foundItem);
+
             // Test delete blacklist
             _db.DeleteBlacklistItem(item.UserId, item.RestaurantId);
             var blacklistItems = _db.GetBlacklistItems(item.UserId);
@@ -355,19 +374,8 @@ namespace RestaurantTinderIntegrationTests
             {
                 Assert.AreNotEqual(id, blacklistItem.Id);
             }
-
-            //Test get blacklist items
-            var blacklistedItems = _db.GetBlacklistItems(item.UserId);
-            bool foundItem = false;
-            foreach (var blacklistItem in blacklistedItems)
-            {
-                if (blacklistItem.Id == id)
-                {
-                    foundItem = true;
-                }
-            }
-            Assert.IsTrue(foundItem);
         }
+
 
         /// <summary>
         /// Tests the zip item POCO methods
@@ -379,7 +387,7 @@ namespace RestaurantTinderIntegrationTests
             ZipItem item = new ZipItem();
             item.Zip = _zip;
             item.Latitude = _latitude;
-            item.Latitude = _longitude;
+            item.Longitude = _longitude;
 
             ZipItem itemGet = _db.GetZipItem(item.Zip);
             Assert.AreEqual(item.Zip, itemGet.Zip);
