@@ -17,6 +17,7 @@ namespace RestaurantTinderIntegrationTests
     [TestClass]
     public class DatabaseTests
     {
+        #region Set-up and cleanup
         //Used to begin a transaction during initialize and rollback during cleanup
         private const string _connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=RestaurantTinder;Integrated Security=true";
         private TransactionScope _tran = null;
@@ -123,7 +124,6 @@ namespace RestaurantTinderIntegrationTests
                 Assert.AreNotEqual(0, _blacklistId);
             }
 
-            //Need to be able to test ZipItem
         }
 
         /// <summary>
@@ -139,7 +139,9 @@ namespace RestaurantTinderIntegrationTests
             _blacklistId = BaseItem.InvalidId;
             _zip = BaseItem.InvalidZip;
         }
+        #endregion
 
+        #region User
         /// <summary>
         /// Tests the user POCO methods
         /// </summary>
@@ -208,7 +210,9 @@ namespace RestaurantTinderIntegrationTests
             }
             Assert.IsTrue(foundItem);
         }
+        #endregion
 
+        #region Restaurant
         /// <summary>
         /// Tests the restaurant POCO methods
         /// </summary>
@@ -254,7 +258,9 @@ namespace RestaurantTinderIntegrationTests
             }
             Assert.IsTrue(foundItem);
         }
+        #endregion
 
+        #region Preferred food
         /// <summary>
         /// Tests the preferred food POCO methods
         /// </summary>
@@ -284,7 +290,6 @@ namespace RestaurantTinderIntegrationTests
             }
             Assert.IsTrue(foundItem);
 
-
             // Test delete preferred food
             _db.DeletePreferredFoodItem(item.UserId, item.Name);
             var foods = _db.GetPreferredFoodItems(item.UserId);
@@ -294,8 +299,9 @@ namespace RestaurantTinderIntegrationTests
             }
             
         }
+        #endregion
 
-
+        #region Favorites
         /// <summary>
         /// Tests the favorites POCO methods
         /// </summary>
@@ -335,7 +341,9 @@ namespace RestaurantTinderIntegrationTests
                 Assert.AreNotEqual(id, favoritesItem.Id);
             }
         }
+        #endregion
 
+        #region Blacklist
         /// <summary>
         /// Tests the blacklist POCO methods
         /// </summary>
@@ -375,8 +383,9 @@ namespace RestaurantTinderIntegrationTests
                 Assert.AreNotEqual(id, blacklistItem.Id);
             }
         }
+        #endregion
 
-
+        #region Zip
         /// <summary>
         /// Tests the zip item POCO methods
         /// </summary>
@@ -394,5 +403,6 @@ namespace RestaurantTinderIntegrationTests
             Assert.AreEqual(item.Latitude, itemGet.Latitude);
             Assert.AreEqual(item.Longitude, itemGet.Longitude);
         }
+        #endregion
     }
 }

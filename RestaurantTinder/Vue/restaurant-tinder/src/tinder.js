@@ -28,7 +28,7 @@ export default {
      */
     getRejected: function() {
         try {
-          return localStorage.getItem('liked');
+          return localStorage.getItem('rejected');
         } catch {
           return null;
         }
@@ -38,13 +38,17 @@ export default {
        * @param {Array} token A JWT encoded token.
        */
       saveRejected(array) {
-        localStorage.setItem('liked', array);
+        const tempArray = this.getRejected();
+        if(tempArray != null){
+        array.push(tempArray);
+        }
+        localStorage.setItem('rejected', array);
       },
       /**
        * Invalidates the local liked resturant.
        */
       destroyRejected() {
-        localStorage.removeItem('liked');
+        localStorage.removeItem('rejected');
       },
 
   };

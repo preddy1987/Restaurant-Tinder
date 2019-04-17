@@ -28,7 +28,7 @@
       <div class="container">
         <h1 class="masthead-heading mb-0">Hunger is a terrible</h1>
         <h1 class="masthead-subheading mb-0">thing to waste</h1>
-         <router-link  class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'register' }">Sign Up</router-link>
+         <router-link v-if="!test" class="btn btn-primary btn-xl rounded-pill mt-5" :to="{ name: 'register' }">Sign Up</router-link>
       </div>
     </div>
   </header>
@@ -43,6 +43,7 @@
 
 <script>
 import auth from '../auth';
+import tinder from '../tinder'
 import MainView from '@/components/Main';
 export default {
 name: 'Landing',
@@ -57,6 +58,7 @@ name: 'Landing',
    methods: {
       logout() {
       auth.logout();
+      tinder.destroyRejected();
       this.$router.go('/');
     },
    },
