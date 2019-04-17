@@ -49,22 +49,16 @@ namespace RestTinderWebAPI.Controllers
 
         [Route("api/main/details")]
         [HttpGet]
-        public ActionResult<List<JObject>> Details()
+        public ActionResult<JObject> Details(string placeId)
         {
-            var zip = _db.GetZipItem(CurrentUser.ZipCode);
-            var foodItem = _db.GetPreferredFoodItems(CurrentUser.Id);
-            List<JObject> jb = new List<JObject>();
+            //JObject jb = new JObject();
 
-            foreach (var item in foodItem)
-            {
-                string testURL = $"https://maps.googleapis.com/maps/api/place/details/json?&placeid=&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
+                string testURL = $"https://maps.googleapis.com/maps/api/place/details/json?&placeid={placeId}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
 
                 string json = HttpGet(testURL);
 
-                jb.Add(JObject.Parse(json));
-
-
-            }
+              JObject jb = JObject.Parse(json);
+          
             return jb;
         }
 

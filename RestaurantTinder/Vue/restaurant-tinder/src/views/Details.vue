@@ -21,6 +21,11 @@ export default {
     components:{
         Layout
     },
+    data(){
+        return{
+        detail: Array
+        }
+    },
     methods: {
         documentClick(e){
             let el =  document.getElementById('modal-wrapper');

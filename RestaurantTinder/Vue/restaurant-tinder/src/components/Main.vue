@@ -10,7 +10,7 @@
     >
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
-      v-for="item in justResults" :key="item.reference"  
+      v-for="item in justResults" :key="item.reference" 
       img-blank img-alt="Blank image"
       
       >
@@ -28,11 +28,14 @@
 import auth from '../auth';
 import tinder from '../tinder';
 export default {
+  props:{
+    detail: []
+  },
   data() {
     return {
       rejected: [],
       restaurant: [],
-      liked: [],
+      liked: [],      
     };
   },
   methods: {
@@ -79,7 +82,27 @@ export default {
           array[randomIndex] = temporaryValue;
      } 
       return array;
-}
+},
+LoadDetails(vm){
+
+  fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/details/?placeId=${vm}`, {
+        method: 'get',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: 'Bearer ' + auth.getToken(),
+        },
+        credentials: 'same-origin',
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.detail = data;
+          this.$router.push('/details');
+        })
+        .catch((err) => console.error(err));
+    }
+
 
   },
   computed: { 
