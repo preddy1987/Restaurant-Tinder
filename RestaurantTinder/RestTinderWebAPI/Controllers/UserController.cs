@@ -93,7 +93,8 @@ namespace RestTinderWebAPI.Controllers
         [Route("api/preferences")]
         public ActionResult<List<PreferredFoodItem>> GetUserPref()
         {
-            var result = _db.GetPreferredFoodItems(CurrentUser.Id);
+            var currentUser = _db.GetUserItem(base.User.Identity.Name);
+            var result = _db.GetPreferredFoodItems(currentUser.Id);
             return result;
         }
         [HttpPost]

@@ -9,7 +9,7 @@
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
       v-for="item in justResults" :key="item.reference"
-      img :src="getPhoto(item.photos[0].photo_reference)"
+       :img-src="getPhoto(item.photos[0].photo_reference)" 
       >
       
         <h2 @click="LoadDetails(item.reference)">
@@ -34,7 +34,6 @@ export default {
       rejected: [],
       restaurant: [],
       liked: [], 
-      photo: ''   
     };
   },
   methods: {
@@ -178,6 +177,9 @@ LoadDetails(vm){
 .carousel-inner img {
     width: 70%!important;
     margin-left: 15%!important;
+}
+h2{
+  cursor:pointer;
 }
 
 </style>
