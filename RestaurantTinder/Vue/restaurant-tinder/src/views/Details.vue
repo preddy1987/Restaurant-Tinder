@@ -5,8 +5,13 @@
       <div class="modal-content animate">
        <div class="imgcontainer">
         <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
-        <h4 style="text-align:center">Restaurant Details</h4>
        </div>
+        <h4 style="text-align:center">{{$attrs.detail.name}}</h4>
+        <div>Address: {{$attrs.detail.formatted_address}}</div>
+        <div>Phone Number: {{$attrs.detail.formatted_phone_number}}</div>
+        <ul>
+            <li v-for="item in $attrs.detail.opening_hours.weekday_text" :key="item">{{item}}</li>
+        </ul>
       </div>
      </div>
     </div>
@@ -21,6 +26,10 @@ export default {
     components:{
         Layout
     },
+    data(){
+        return{
+        }
+    },
     methods: {
         documentClick(e){
             let el =  document.getElementById('modal-wrapper');
@@ -33,6 +42,9 @@ export default {
 </script>
 
 <style scoped>
+ul {
+list-style-type: none;
+}
 /* Center the image and position the close button */
 .imgcontainer {
     text-align: center;

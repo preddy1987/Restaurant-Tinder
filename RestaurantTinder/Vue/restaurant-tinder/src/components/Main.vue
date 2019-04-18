@@ -9,7 +9,7 @@
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
       v-for="item in justResults" :key="item.reference"
-      :img-src="getPhoto(item.photos[0].photo_reference)"  
+      img :src="getPhoto(item.photos[0].photo_reference)"
       >
       
         <h2 @click="LoadDetails(item.reference)">
@@ -26,11 +26,15 @@
 import auth from '../auth';
 import tinder from '../tinder';
 export default {
+  props:{
+    detail: []
+  },
   data() {
     return {
       rejected: [],
       restaurant: [],
-      liked: [],
+      liked: [], 
+      photo: ''   
     };
   },
   methods: {
@@ -83,6 +87,28 @@ export default {
      } 
       return array;
 },
+LoadDetails(vm){
+
+  fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/details/?placeId=${vm}`, {
+        method: 'get',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: 'Bearer ' + auth.getToken(),
+        },
+        credentials: 'same-origin',
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          // this.detail = data;
+          let detail = data.result;
+          this.$router.push({name: 'details', params: {detail:detail}});
+        })
+        .catch((err) => console.error(err));
+    },
+
+
    getPhoto(string){
      return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${string}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg`
   },
@@ -133,13 +159,13 @@ export default {
   height: 88vh;
 }
 .carousel-control-next-icon {
-  background-image: url("../assets/check.jpg")!important;
+  background-image: url("../assets/checkt.png")!important;
   width: 50px !important;
   height: 50px !important;
 }
 
 .carousel-control-prev-icon {
-  background-image: url("../assets/x.jpg")!important;
+  background-image: url("../assets/xt.png")!important;
   width: 50px !important;
   height: 50px !important;
 }

@@ -38,6 +38,7 @@ const router = new Router({
       path: '/details',
       name: 'details',
       component: Details,
+      props: true
     }
   ],
 })
