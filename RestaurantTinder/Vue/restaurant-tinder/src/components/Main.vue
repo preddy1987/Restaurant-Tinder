@@ -9,7 +9,7 @@
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
       v-for="item in justResults" :key="item.reference"
-       :img-src="getPhoto(item.photos[0].photo_reference)" 
+       img-blank
       >
       
         <h2 @click="LoadDetails(item.reference)">
@@ -153,7 +153,7 @@ LoadDetails(vm){
 }
 </script>
 
-<style>
+<style scoped>
 .carousel-inner img {
   height: 88vh;
 }

@@ -544,7 +544,7 @@ namespace RestaurantTinder.Database
 
         }
 
-        public void DeletePreferredFoodItem(int userId, string name)
+        public void DeletePreferredFoodItem(PreferredFoodItem item)
         {
             const string sql = "DELETE FROM [PreferredFood] WHERE name = @Name and userId = @UserId;";
 
@@ -553,8 +553,8 @@ namespace RestaurantTinder.Database
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@UserId", userId);
-                cmd.Parameters.AddWithValue("@Name", name);
+                cmd.Parameters.AddWithValue("@UserId", item.UserId);
+                cmd.Parameters.AddWithValue("@Name", item.Name);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -584,12 +584,13 @@ namespace RestaurantTinder.Database
         public List<PreferredFoodItem> GetPreferredFoodItems(int userId)
         {
             List<PreferredFoodItem> preferredFoods = new List<PreferredFoodItem>();
-            const string sql = "Select * From [PreferredFood];";
+            const string sql = "Select * From [PreferredFood] where UserId = @UserId;";
 
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@UserId", userId);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())

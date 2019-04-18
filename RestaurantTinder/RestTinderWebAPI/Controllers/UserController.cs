@@ -106,5 +106,14 @@ namespace RestTinderWebAPI.Controllers
             preferredFood.UserId = CurrentUser.Id;
             _db.AddPreferredFoodItem(preferredFood);
         }
+        [HttpPost]
+        [Route("api/deletepreference")]
+        public void DeleteUserPref([FromBody] string preference)
+        {
+            PreferredFoodItem preferredFood = new PreferredFoodItem();
+            preferredFood.Name = preference;
+            preferredFood.UserId = CurrentUser.Id;
+            _db.DeletePreferredFoodItem(preferredFood);
+        }
     }
 }

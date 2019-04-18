@@ -7,6 +7,20 @@
         <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
        </div>
         <h4 style="text-align:center">{{$attrs.detail.name}}</h4>
+        <b-carousel
+            id="carousel-1"
+            :interval="0"
+            indicators
+            controls
+            style="text-shadow: 1px 1px 2px #333;"   
+        >
+        <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+            <b-carousel-slide 
+            v-for="item in $attrs.detail.photos" :key="item.photo_reference"
+            :img-src="getPhoto(item.photo_reference)" 
+            >
+            </b-carousel-slide>
+        </b-carousel>
         <div>Address: {{$attrs.detail.formatted_address}}</div>
         <div>Phone Number: {{$attrs.detail.formatted_phone_number}}</div>
         <ul>
@@ -36,7 +50,10 @@ export default {
             if ( e.target == el ) {
             this.$router.push('/');
             }
-        }
+        },
+        getPhoto(string){
+            return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${string}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg`
+        },
     }
 }
 </script>
