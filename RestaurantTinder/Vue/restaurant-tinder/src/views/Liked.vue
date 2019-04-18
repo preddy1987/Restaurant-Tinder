@@ -1,5 +1,5 @@
 <template>
-<div>
+<div @click='documentClick'>
   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
       <img id="main-logo" src="@/assets/dot.png" alt="">
@@ -51,6 +51,7 @@
         </h2>
       </b-carousel-slide>
     </b-carousel>
+     <details-view :detail="detail" v-if="showDetails" v-on:show-details="doSomething"></details-view>
     <footer class="py-5 bg-black">
     <div class="container">
       <p class="m-0 text-center text-white small">Copyright &copy; Your Website 2019</p>
@@ -62,11 +63,17 @@
 <script>
 import auth from '../auth';
 import tinder from '../tinder'
+import DetailsView from '@/components/Details'
 export default {
-
+name: 'liked',
+  components: {
+     DetailsView
+  },
   data() {
     return {
-      restaurant: []
+      restaurant: [],
+      showDetails: false,
+      detail: {}
     };
   },
   computed: {
@@ -84,6 +91,16 @@ export default {
      }
   },  
   methods: {
+    doSomething(){
+       this.showDetails = false;
+     },
+     documentClick(e){
+        let el =  document.getElementById('modal-wrapper');
+        if ( e.target === el ) {
+          this.showDetails = false
+
+        }
+      },
       logout() {
       auth.logout();
       tinder.destroyRejected();
@@ -92,7 +109,7 @@ export default {
       this.$router.go('/');
     },
     LoadDetails(vm){
-
+        this.showDetails = true;
   fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/details/?placeId=${vm}`, {
         method: 'get',
         headers: {
@@ -106,8 +123,9 @@ export default {
         })
         .then((data) => {
           // this.detail = data;
-          let detail = data.result;
-          this.$router.push({name: 'details', params: {detail:detail}});
+           this.detail = data.result;
+          this.showDetails = true;
+
         })
         .catch((err) => console.error(err));
     },
@@ -201,18 +219,17 @@ export default {
   width: 50px !important;
   height: 50px !important;
 }
-#main-img img{
-  width: 100%;
+.main-img{
+  width: 70% !important;
+  margin-top: 1%;
+  margin-left: 15% !important;
+  height: 96% !important;
+  cursor:pointer;
 }
 .carousel-caption{
   background: #333333;
 }
-.main-img{
-    width: 60% !important;
-    margin-left: 20% !important;
-    height: 98% !important;
-    cursor: pointer;
-  }
+
 h2{
   cursor:pointer;
 }

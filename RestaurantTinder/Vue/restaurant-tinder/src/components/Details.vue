@@ -1,12 +1,11 @@
 <template>
-<layout>
     <div id="details">
-     <div id="modal-wrapper" class="modal" @click='documentClick'>
+     <div id="modal-wrapper" class="modal">
       <div class="modal-content animate">
        <div class="imgcontainer">
-        <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
+        <span @click="$emit('show-details');" class="close" title="Close PopUp">&times;</span>
        </div>
-        <h4 style="text-align:center">{{$attrs.detail.name}}</h4>
+        <h4 style="text-align:center">{{this.detail.name}}</h4>
         <b-carousel
             id="carousel-detail"
             :interval= "2000"
@@ -16,7 +15,7 @@
         >
         <!-- Slide with blank fluid image to maintain slide aspect ratio -->
             <b-carousel-slide 
-            v-for="item in $attrs.detail.photos" :key="item.photo_reference"
+            v-for="item in this.detail.photos" :key="item.photo_reference"
             >
             
        <img
@@ -27,38 +26,33 @@
         >
             </b-carousel-slide>
         </b-carousel>
-        <div class="info">Address: {{$attrs.detail.formatted_address}}</div>
-        <div class="info">Phone Number: {{$attrs.detail.formatted_phone_number}}</div>
-        <div class="info">Would you like directions? <a :href=$attrs.detail.url target="_blank">Click Here</a></div>
+        <div class="info">Address: {{detail.formatted_address}}</div>
+        <div class="info">Phone Number: {{detail.formatted_phone_number}}</div>
+        <div class="info">Would you like directions? <a :href="detail.url" target="_blank">Click Here</a></div>
         <ul>
             <h2>Hours of Operation</h2>
-            <li class="address-item" v-for="item in $attrs.detail.opening_hours.weekday_text" :key="item">{{item}}</li>
+            <li class="address-item" v-for="item in detail.opening_hours.weekday_text" :key="item">{{item}}</li>
         </ul>
       </div>
      </div>
     </div>
-</layout>
 </template>
 
 <script>
 // import auth from '../auth';
-import Layout from '../layouts/DefaultLayout.vue';
 export default {
     name: 'Details',
     components:{
-        Layout
+    },
+    props:{
+      detail: Object
     },
     data(){
         return{
         }
     },
     methods: {
-        documentClick(e){
-            let el =  document.getElementById('modal-wrapper');
-            if ( e.target == el ) {
-            this.$router.push('/');
-            }
-        },
+ 
         getPhoto(string){
             return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${string}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg`
         },

@@ -4,7 +4,6 @@ import Register from './views/Register.vue'
 import Login from './views/Login.vue'
 import Landing from './views/Landing.vue'
 import UserPreferences from './views/UserPreferences.vue'
-import Details from './views/Details.vue'
 import Liked from './views/Liked.vue'
 
 import auth from './auth';
@@ -34,12 +33,6 @@ const router = new Router({
       path: '/userpreferences',
       name: 'userpreferences',
       component: UserPreferences,
-    },
-    {
-      path: '/details',
-      name: 'details',
-      component: Details,
-      props: true
     },
     {
       path: '/liked',

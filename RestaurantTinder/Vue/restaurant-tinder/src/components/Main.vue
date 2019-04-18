@@ -1,5 +1,6 @@
 <template>
- <div >
+ <div @click='documentClick'>
+    <details-view :detail="detail" v-if="showDetails" v-on:show-details="doSomething"></details-view>
     <b-carousel
       id="carousel-1"
       :interval="0"
@@ -27,7 +28,6 @@
        <a href="#"  @click="reject"  class="carousel-control-prev"><span  class="carousel-control-prev-icon"></span><span class="sr-only">Previous Slide</span></a>
        <a href="#" @click="like" class="carousel-control-next"><span  class="carousel-control-next-icon"></span><span class="sr-only">Next Slide</span></a>
       </b-carousel-slide>
-     
     </b-carousel>
   </div>
 </template>
@@ -35,19 +35,32 @@
 <script>
 import auth from '../auth';
 import tinder from '../tinder';
+import DetailsView from '@/components/Details'
 export default {
-  props:{
-    detail: []
+  name: 'Main',
+  components: {
+     DetailsView
   },
   data() {
     return {
       rejected: [],
       restaurant: [],
       liked: [], 
-      hasWrapper: document.getElementById("modal-wrapper")
+      showDetails: false,
+      detail: {}
     };
   },
   methods: {
+     doSomething(){
+       this.showDetails = false;
+     },
+     documentClick(e){
+        let el =  document.getElementById('modal-wrapper');
+        if ( e.target === el ) {
+          this.showDetails = false
+
+        }
+      },
     reject(event){
         let inputNode = document.getElementsByClassName("carousel-item active");
         let rejectedResturant = inputNode[0].innerText;
@@ -112,9 +125,8 @@ LoadDetails(vm){
           return response.json();
         })
         .then((data) => {
-          // this.detail = data;
-          let detail = data.result;
-          this.$router.push({name: 'details', params: {detail:detail}});
+          this.detail = data.result;
+          this.showDetails = true;
         })
         .catch((err) => console.error(err));
     },
@@ -190,8 +202,9 @@ LoadDetails(vm){
 }
 .main-img{
   width: 70% !important;
+  margin-top: 1%;
   margin-left: 15% !important;
-  height: 98% !important;
+  height: 96% !important;
   cursor:pointer;
 }
 h2{
