@@ -11,9 +11,7 @@
       v-for="item in justResults" :key="item.reference"
       :img-src="getPhoto(item.photos[0].photo_reference)"  
       >
-        <!-- <div id="main-img">
-          <img :src="getPhoto(item.photos[0].photo_reference)"/>
-        </div> -->
+      
         <h2 @click="LoadDetails(item.reference)">
           {{item.name}}
         </h2>
@@ -147,6 +145,9 @@ export default {
 }
 #main-img img{
   width: 100%;
+}
+.carousel-caption{
+  background: #333333;
 }
 .carousel-inner img {
     width: 70%!important;
