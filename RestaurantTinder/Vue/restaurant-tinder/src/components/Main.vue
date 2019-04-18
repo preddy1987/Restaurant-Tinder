@@ -9,7 +9,7 @@
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
       v-for="item in justResults" :key="item.reference"
-      :img-src="getPhoto(item.photos[0].photo_reference)"  
+      img :src="getPhoto(item.photos[0].photo_reference)"
       >
         <!-- <div id="main-img">
           <img :src="getPhoto(item.photos[0].photo_reference)"/>
@@ -35,7 +35,8 @@ export default {
     return {
       rejected: [],
       restaurant: [],
-      liked: [],      
+      liked: [], 
+      photo: ''   
     };
   },
   methods: {
