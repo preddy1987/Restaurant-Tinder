@@ -8,7 +8,9 @@
         <div class="form-preferences" id="current-preferences">
             <h1 class="mb-3 " >Your Current Preferences</h1>
             <ul class="list-group" >
-                <li class="list-group-item" v-for="pref in currentPrefsList" :key="pref.id">{{ pref.name }}</li>
+                <li class="list-group-item" v-for="pref in currentPrefsList" :key="pref.id">
+                  <div class="hide-button" @click="DeletePref(item.name)"><a @click.stop.prevent="DeletePref(pref.name)" href="#" >x</a></div>
+                  {{ pref.name }}</li>
             </ul>
         </div>
         <form id="form" class="form-preferences" @submit.prevent.stop="SavePrefs">
@@ -62,6 +64,31 @@ name: 'UserPreferences',
         }
     },
     methods: {
+       DeletePref(e) {
+
+          let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/deletepreference";
+
+          //http://localhost:50260/api/savepreference
+          fetch(ajaxURL, {
+              method: 'post',
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization : 'Bearer ' + auth.getToken(),
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify(e)
+          })
+          .then((response) => {
+              return response.text();
+          })
+          .then((data) => {
+              window.console.log(data);
+              this.GetCurrentPrefs();                   
+          })
+          .catch((error) => {
+              window.console.log('Error:', error);
+          });
+        },
 
         SavePrefs() {
 
@@ -238,6 +265,37 @@ form {
 /* Add Zoom Animation */
 .animate {
     animation: zoom 0.6s
+}
+.hide-button {
+    float: right;
+    margin-top: -5px;
+    font-size: 11px;
+    font-family: helvetica;
+    color: tray;
+    display: none;
+}
+
+.hide-button a{
+    text-decoration: none;
+    color:gray;
+}
+
+.hide-button a:hover {
+    text-decoration: underline;
+    color:gray;
+}
+.list-group li {
+    background: white;
+    border-bottom: 1px solid #E4E4E4;
+    padding: 12px 0px 12px 0px;
+    overflow: hidden;
+}
+
+.list-group li:hover {
+    background-color: #F3F3F3;
+}
+.list-group li:hover .hide-button {
+    display: block;
 }
 /* .form-preferences input[type='password'] {
   margin-bottom: 10px;
