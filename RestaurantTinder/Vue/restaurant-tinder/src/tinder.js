@@ -22,6 +22,8 @@ export default {
       localStorage.removeItem('Restaurant');
     },
 
+    
+
     getLiked: function() {
       try {
         return localStorage.getItem('liked');

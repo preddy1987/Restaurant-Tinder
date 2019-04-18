@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Landing from './views/Landing.vue'
 import UserPreferences from './views/UserPreferences.vue'
@@ -18,11 +17,6 @@ const router = new Router({
       path: '/',
       name: 'landing',
       component: Landing,
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login,
     },
     {
         path: '/register',

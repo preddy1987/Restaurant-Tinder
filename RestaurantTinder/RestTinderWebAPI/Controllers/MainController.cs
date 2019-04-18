@@ -36,7 +36,7 @@ namespace RestTinderWebAPI.Controllers
 
             foreach (var item in foodItem)
             {
-                string testURL = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={zip.Latitude},{zip.Longitude}&radius=50000&type=restaurant&keyword={item.Name}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
+                string testURL = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={zip.Latitude},{zip.Longitude}&radius=25000&type=restaurant&keyword={item.Name}&key=AIzaSyDDHeRZd4LXtzzV41AN2CiZPXEA7R8Y3Tg";
 
                 string json = HttpGet(testURL);
 

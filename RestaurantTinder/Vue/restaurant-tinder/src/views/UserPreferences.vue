@@ -36,6 +36,7 @@
 
 <script>
 import auth from '../auth';
+import tinder from '../tinder';
 import Layout from '../layouts/DefaultLayout.vue'
 export default {
 name: 'UserPreferences',
@@ -64,9 +65,9 @@ name: 'UserPreferences',
     methods: {
 
         SavePrefs() {
-
+            tinder.destroyRestaurant();
           let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/savepreference";
-
+          
           //http://localhost:50260/api/savepreference
           fetch(ajaxURL, {
               method: 'post',
