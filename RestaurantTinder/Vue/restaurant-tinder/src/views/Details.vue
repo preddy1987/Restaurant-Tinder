@@ -34,8 +34,6 @@
             <h2>Hours of Operation</h2>
             <li class="address-item" v-for="item in $attrs.detail.opening_hours.weekday_text" :key="item">{{item}}</li>
         </ul>
-        <button class="btn btn-danger btn-sm button">Add to Favorites List</button>
-        <button class="btn btn-secondary btn-sm button">Add to Black List</button>
       </div>
      </div>
     </div>
@@ -45,7 +43,6 @@
 <script>
 // import auth from '../auth';
 import Layout from '../layouts/DefaultLayout.vue';
-import auth from '../auth';
 export default {
     name: 'Details',
     components:{
@@ -56,31 +53,6 @@ export default {
         }
     },
     methods: {
-        AddToFavs() {
-            // tinder.destroyRestaurant();
-          let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/savepreference";
-          
-          //http://localhost:50260/api/savepreference
-          fetch(ajaxURL, {
-              method: 'post',
-              headers: {
-                  "Content-Type": "application/json",
-                  Authorization : 'Bearer ' + auth.getToken(),
-              },
-              credentials: 'same-origin',
-              body: JSON.stringify(this.preference)
-          })
-          .then((response) => {
-              return response.text();
-          })
-          .then((data) => {
-              window.console.log(data);
-              this.GetCurrentPrefs();                   
-          })
-          .catch((error) => {
-              window.console.log('Error:', error);
-          });
-        },
         documentClick(e){
             let el =  document.getElementById('modal-wrapper');
             if ( e.target == el ) {
