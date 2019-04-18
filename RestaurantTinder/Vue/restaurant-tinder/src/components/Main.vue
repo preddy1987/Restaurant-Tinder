@@ -184,15 +184,14 @@ LoadDetails(vm){
   height: 50px !important;
   opacity: 1;
 }
-#main-img img{
-  width: 100%;
-}
+
 .carousel-caption{
   background: #333333;
 }
 .main-img{
   width: 70% !important;
   margin-left: 15% !important;
+  height: 98% !important;
   cursor:pointer;
 }
 h2{
@@ -216,7 +215,6 @@ h2{
   background-position: center center;
   background-attachment: scroll;
   background-size: cover;
-  height: 90vh;
 }
 .carousel-item{
   height: 90vh;

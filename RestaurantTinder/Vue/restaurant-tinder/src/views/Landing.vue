@@ -85,9 +85,6 @@ name: 'Landing',
 #main-logo{
     width: 5%;
 }
-body {
-  font-family: 'Lato';
-}
 
 h1,
 h2,

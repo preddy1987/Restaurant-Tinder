@@ -187,7 +187,7 @@ export default {
     width: 20%;
 }
 
-.carousel-inner img {
+.carousel-item{
   height: 88vh;
 }
 .carousel-control-next-icon {
@@ -210,6 +210,7 @@ export default {
 .main-img{
     width: 60% !important;
     margin-left: 20% !important;
+    height: 98% !important;
     cursor: pointer;
   }
 h2{
@@ -219,5 +220,32 @@ h2{
   background-color: #000 !important;
   padding-bottom: 1rem!important;
   padding-top: 1rem!important;
+}
+
+@media (max-width: 800px){
+  .main-img{
+    width: 70% !important;
+    margin-left: 15% !important;
+    margin-top: 10% !important;
+    height: 60% !important;
+    cursor: pointer;
+    margin-top: 10% !important;
+  }
+    header.masthead {
+    padding-top: calc(10rem + 55px);
+    padding-bottom: 10rem;
+  }
+  header.masthead .masthead-content .masthead-heading {
+    font-size: 3rem;
+  }
+  header.masthead .masthead-content .masthead-subheading {
+    font-size: 3rem;
+  }
+  #main-logo{
+    display: none;
+}
+.navbar-custom .navbar-brand{
+    width: 20%;
+}
 }
 </style>

@@ -104,6 +104,7 @@ export default {
     background-position: center center;
     background-attachment: scroll;
     background-size: cover;
+    overflow: auto;
 }
 ul {
     list-style-type: none;
