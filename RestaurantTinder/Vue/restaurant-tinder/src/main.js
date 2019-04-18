@@ -4,6 +4,8 @@ import router from "./router";
 import 'bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import Carousel from 'bootstrap-vue/es/components/carousel'
+Vue.use(Carousel)
 
 Vue.config.productionTip = false
 

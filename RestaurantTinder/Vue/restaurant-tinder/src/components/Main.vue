@@ -4,7 +4,6 @@
       id="carousel-1"
       :interval="0"
       style="text-shadow: 1px 1px 2px #333;"
-    
     >
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
