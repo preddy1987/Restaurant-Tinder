@@ -1,5 +1,5 @@
 <template>
-<div @click='documentClick'>
+<div>
   <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
     <div class="container">
       <img id="main-logo" src="@/assets/dot.png" alt="">
@@ -10,7 +10,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item"  v-if="!hasUser">
-              <a class="nav-link" href="#" @click="showLogin = true" >Login</a>
+             <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
           </li>
            <li class="nav-item" @click="logout" v-if="hasUser">
               <a class="nav-link"  href="#">Logout</a>
@@ -32,7 +32,6 @@
     </div>
   </header>
     <main-view v-if="hasUser"></main-view>
-    <login-view v-if="showLogin" v-on:show-login="doSomething"></login-view>
   <footer class="py-5 bg-black">
     <div class="container">
       <p class="m-0 text-center text-white small">Copyright &copy; Your Website 2019</p>
@@ -44,17 +43,14 @@
 import auth from '../auth';
 import tinder from '../tinder'
 import MainView from '@/components/Main';
-import LoginView from '@/components/Login';
 export default {
 name: 'Landing',
   components: {
     MainView,
-    LoginView
   },
   data() {
      return {
       hasUser: false,
-      showLogin: false
     };
   },
    methods: {
@@ -65,15 +61,6 @@ name: 'Landing',
       this.$router.go('/');
     },
    },
-    doSomething(){
-       this.showLogin = false;
-     },
-     documentClick(e){
-        let el =  document.getElementById('modal-wrapper');
-        if ( e.target === el ) {
-          this.showLogin = false;
-        }
-     },
     created() { 
       let getUser = auth.getUser();
       if(getUser){

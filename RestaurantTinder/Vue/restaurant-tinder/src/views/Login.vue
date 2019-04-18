@@ -3,7 +3,7 @@
   <div id="modal-wrapper" class="modal" >
     <form id="test2" class="modal-content animate" @submit.prevent="login">
       <div class="imgcontainer">
-         <span @click="$emit('show-login', false);" class="close" title="Close PopUp">&times;</span>
+         <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
         <h1 style="text-align:center">Please Sign In</h1>
       </div>
        <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
@@ -41,7 +41,12 @@
 
 <script>
 import auth from '../auth';
+import Layout from '../layouts/DefaultLayout.vue'
 export default {
+    name: 'Login',
+  components: {
+    Layout,
+  },
   data() {
     return {
       user: {
