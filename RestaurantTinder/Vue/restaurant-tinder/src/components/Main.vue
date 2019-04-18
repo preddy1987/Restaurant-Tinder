@@ -11,19 +11,24 @@
       <b-carousel-slide 
       v-for="item in justResults" :key="item.reference"
       >
+      
+      
        <img
           slot="img"
           class="main-img"
           :src="getPhoto(item.photos[0].photo_reference)"
           alt="image slot"
+          @click="LoadDetails(item.reference)"
+          
         >
-      
-        <h2 v-if="hasWrapper" @click="LoadDetails(item.reference)">
+        
+        <h2 @click="LoadDetails(item.reference)">
           {{item.name}}
         </h2>
+       <a href="#"  @click="reject"  class="carousel-control-prev"><span  class="carousel-control-prev-icon"></span><span class="sr-only">Previous Slide</span></a>
+       <a href="#" @click="like" class="carousel-control-next"><span  class="carousel-control-next-icon"></span><span class="sr-only">Next Slide</span></a>
       </b-carousel-slide>
-      <a href="#"  @click="reject"  class="carousel-control-prev"><span  class="carousel-control-prev-icon"></span><span class="sr-only">Previous Slide</span></a>
-      <a href="#" @click="like" class="carousel-control-next"><span  class="carousel-control-next-icon"></span><span class="sr-only">Next Slide</span></a>
+     
     </b-carousel>
   </div>
 </template>
@@ -47,6 +52,7 @@ export default {
     reject(event){
         let inputNode = document.getElementsByClassName("carousel-item active");
         let rejectedResturant = inputNode[0].innerText;
+        tinder.destroyRejected();
         let testwords = tinder.getRejected();
          if(event){
            tinder.destroyRejected();
@@ -69,7 +75,7 @@ export default {
            if(!this.liked.includes(likedResturant)){
            this.liked.push(inputNode[0].innerText)
            }
-           let final = this.rejected.concat(testwords);
+           let final = this.liked.concat(testwords);
            tinder.saveLiked(final)
            inputNode[0].nextElementSibling.className = "carousel-item active";
            inputNode[0].className = "carousel-item";
@@ -161,19 +167,23 @@ LoadDetails(vm){
 </script>
 
 <style scoped>
-.carousel-inner img {
-  height: 88vh;
-}
 .carousel-control-next-icon {
   background-image: url("../assets/checkt.png")!important;
   width: 50px !important;
   height: 50px !important;
+  opacity: 1;
 }
-
+.carousel-control-next {
+  opacity: 1;
+}
+.carousel-control-prev {
+  opacity: 1;
+}
 .carousel-control-prev-icon {
   background-image: url("../assets/xt.png")!important;
   width: 50px !important;
   height: 50px !important;
+  opacity: 1;
 }
 #main-img img{
   width: 100%;
@@ -184,9 +194,33 @@ LoadDetails(vm){
 .main-img{
   width: 70% !important;
   margin-left: 15% !important;
+  cursor:pointer;
 }
 h2{
   cursor:pointer;
+}
+
+@media (max-width: 800px){
+  .main-img{
+    width: 70% !important;
+    margin-left: 15% !important;
+    margin-top: 10% !important;
+    height: 60% !important;
+    cursor: pointer;
+    margin-top: 10% !important;
+  }
+}
+.carousel {
+  background: -webkit-gradient(linear, left bottom, left top, from(#ff6a00), to(#ee0979));
+  background: linear-gradient(0deg, #ff6a00 0%, #ee0979 100%);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: scroll;
+  background-size: cover;
+  height: 90vh;
+}
+.carousel-item{
+  height: 90vh;
 }
 
 </style>

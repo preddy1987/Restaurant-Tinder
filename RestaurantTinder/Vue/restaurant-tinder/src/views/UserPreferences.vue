@@ -66,7 +66,7 @@ name: 'UserPreferences',
     },
     methods: {
        DeletePref(e) {
-
+             tinder.destroyRestaurant();
           let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/deletepreference";
 
           //http://localhost:50260/api/savepreference
@@ -117,6 +117,7 @@ name: 'UserPreferences',
           });
         },
         GetCurrentPrefs() {
+          
           let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/preferences";
 
           //http://localhost:50260/api/preferences

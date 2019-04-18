@@ -18,6 +18,12 @@
           <li class="nav-item"> 
              <router-link class="nav-link" v-if="hasUser" :to="{ name: 'userpreferences' }">Preferences</router-link>
           </li>
+          <li class="nav-item"> 
+             <router-link class="nav-link" v-if="hasUser" :to="{ name: 'liked' }">Likes</router-link>
+          </li>
+           <li class="nav-item"> 
+             <router-link class="nav-link" :to="{ name: 'landing' }">Home</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -58,6 +64,7 @@ name: 'Landing',
       auth.logout();
       tinder.destroyRejected();
       tinder.destroyRestaurant();
+      tinder.destroyLiked();
       this.$router.go('/');
     },
    },
