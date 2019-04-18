@@ -3,16 +3,22 @@
     <b-carousel
       id="carousel-1"
       :interval="0"
+     
       style="text-shadow: 1px 1px 2px #333;"
     
     >
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
       <b-carousel-slide 
       v-for="item in justResults" :key="item.reference"
-       img-blank
       >
+       <img
+          slot="img"
+          class="main-img"
+          :src="getPhoto(item.photos[0].photo_reference)"
+          alt="image slot"
+        >
       
-        <h2 @click="LoadDetails(item.reference)">
+        <h2 v-if="hasWrapper" @click="LoadDetails(item.reference)">
           {{item.name}}
         </h2>
       </b-carousel-slide>
@@ -34,6 +40,7 @@ export default {
       rejected: [],
       restaurant: [],
       liked: [], 
+      hasWrapper: document.getElementById("modal-wrapper")
     };
   },
   methods: {
@@ -174,9 +181,9 @@ LoadDetails(vm){
 .carousel-caption{
   background: #333333;
 }
-.carousel-inner img {
-    width: 70%!important;
-    margin-left: 15%!important;
+.main-img{
+  width: 70% !important;
+  margin-left: 15% !important;
 }
 h2{
   cursor:pointer;
