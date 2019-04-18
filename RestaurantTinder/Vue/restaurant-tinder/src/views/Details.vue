@@ -8,8 +8,8 @@
        </div>
         <h4 style="text-align:center">{{$attrs.detail.name}}</h4>
         <b-carousel
-            id="carousel-1"
-            :interval="0"
+            id="carousel-detail"
+            :interval= "2000"
             indicators
             controls
             style="text-shadow: 1px 1px 2px #333;"   
@@ -17,15 +17,25 @@
         <!-- Slide with blank fluid image to maintain slide aspect ratio -->
             <b-carousel-slide 
             v-for="item in $attrs.detail.photos" :key="item.photo_reference"
-            :img-src="getPhoto(item.photo_reference)" 
             >
+            
+       <img
+          slot="img"
+          class="main-img"
+          :src="getPhoto(item.photo_reference)"
+          alt="image slot"
+        >
             </b-carousel-slide>
         </b-carousel>
-        <div>Address: {{$attrs.detail.formatted_address}}</div>
-        <div>Phone Number: {{$attrs.detail.formatted_phone_number}}</div>
+        <div class="info">Address: {{$attrs.detail.formatted_address}}</div>
+        <div class="info">Phone Number: {{$attrs.detail.formatted_phone_number}}</div>
+        <div class="info">Would you like directions? <a :href=$attrs.detail.url target="_blank">Click Here</a></div>
         <ul>
-            <li v-for="item in $attrs.detail.opening_hours.weekday_text" :key="item">{{item}}</li>
+            <h2>Hours of Operation</h2>
+            <li class="address-item" v-for="item in $attrs.detail.opening_hours.weekday_text" :key="item">{{item}}</li>
         </ul>
+        <button class="btn btn-danger btn-sm button">Add to Favorites List</button>
+        <button class="btn btn-secondary btn-sm button">Add to Black List</button>
       </div>
      </div>
     </div>
@@ -34,7 +44,8 @@
 
 <script>
 // import auth from '../auth';
-import Layout from '../layouts/DefaultLayout.vue'
+import Layout from '../layouts/DefaultLayout.vue';
+import auth from '../auth';
 export default {
     name: 'Details',
     components:{
@@ -45,6 +56,31 @@ export default {
         }
     },
     methods: {
+        AddToFavs() {
+            // tinder.destroyRestaurant();
+          let ajaxURL = `${process.env.VUE_APP_REMOTE_API}` + "/api/savepreference";
+          
+          //http://localhost:50260/api/savepreference
+          fetch(ajaxURL, {
+              method: 'post',
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization : 'Bearer ' + auth.getToken(),
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify(this.preference)
+          })
+          .then((response) => {
+              return response.text();
+          })
+          .then((data) => {
+              window.console.log(data);
+              this.GetCurrentPrefs();                   
+          })
+          .catch((error) => {
+              window.console.log('Error:', error);
+          });
+        },
         documentClick(e){
             let el =  document.getElementById('modal-wrapper');
             if ( e.target == el ) {
@@ -59,8 +95,27 @@ export default {
 </script>
 
 <style scoped>
+
+.modal-content{
+    color: white;
+    background: -webkit-gradient(linear, left bottom, left top, from(#ff6a00), to(#ee0979));
+    background: linear-gradient(0deg, #ff6a00  0%, #ee0979  100%);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: scroll;
+    background-size: cover;
+}
 ul {
-list-style-type: none;
+    list-style-type: none;
+}
+.info{
+    margin-left: 20px;
+}
+.button{
+    width: 150px;
+    height: 50px;
+    border: white solid 2px;
+    font-weight: 600;
 }
 /* Center the image and position the close button */
 .imgcontainer {
@@ -72,6 +127,14 @@ list-style-type: none;
     width: 200px;
 	height:200px;
     border-radius: 50%;
+}
+h2{
+    margin-top: 10px;
+    margin-bottom: -1px;
+    font-size: 16px;
+}
+ul li{
+    font-size: 12px;
 }
 
 /* The Modal (background) */
@@ -94,7 +157,7 @@ list-style-type: none;
   margin: 4% auto 15% auto;
   border: 1px solid #888;
   width: 50%;
-	padding-bottom: 30px;
+  padding-bottom: 30px;
 }
 
 /* The Close Button (x) */
@@ -114,5 +177,15 @@ list-style-type: none;
 /* Add Zoom Animation */
 .animate {
     animation: zoom 0.6s
+}
+#carousel-detail{
+    align-self: center;
+    text-align: center;
+    width: 400px;
+    height: 350px;
+}
+.main-img{
+    width:300px;
+    height: 300px;
 }
 </style>
