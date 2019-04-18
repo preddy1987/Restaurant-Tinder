@@ -43,7 +43,7 @@
 import auth from '../auth';
 import Layout from '../layouts/DefaultLayout.vue'
 export default {
-    name: 'Login',
+  name: 'Login',
   components: {
     Layout,
   },

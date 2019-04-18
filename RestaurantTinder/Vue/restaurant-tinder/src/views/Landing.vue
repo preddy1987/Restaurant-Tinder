@@ -13,7 +13,7 @@
              <router-link class="nav-link" :to="{ name: 'login' }">Login</router-link>
           </li>
            <li class="nav-item" @click="logout" v-if="hasUser">
-              <a class="nav-link"  href="#">Logout</a>
+              <a class="nav-link"  href="#">({{user}})Logout</a>
           </li>
           <li class="nav-item"> 
              <router-link class="nav-link" v-if="hasUser" :to="{ name: 'userpreferences' }">Preferences</router-link>
@@ -40,7 +40,7 @@
     <main-view v-if="hasUser"></main-view>
   <footer class="py-5 bg-black">
     <div class="container">
-      <p class="m-0 text-center text-white small">Copyright &copy; Your Website 2019</p>
+      <p class="m-0 text-center text-white small">Copyright &copy; Restaurant Tinder 2019</p>
     </div>
   </footer>
     </div>
@@ -58,6 +58,12 @@ name: 'Landing',
      return {
       hasUser: false,
     };
+  },
+  computed:{
+     user(){
+         let myUser = auth.getUser();
+        return myUser.sub
+     }
   },
    methods: {
       logout() {

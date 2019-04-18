@@ -10,7 +10,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
            <li class="nav-item" @click="logout" >
-              <a class="nav-link"  href="#">Logout</a>
+              <a class="nav-link"  href="#">({{user}})Logout</a>
           </li>
           <li class="nav-item"> 
              <router-link class="nav-link"  :to="{ name: 'userpreferences' }">Preferences</router-link>
@@ -46,7 +46,7 @@
           @click="LoadDetails(item.reference)"
         >
       
-        <h2  @click="LoadDetails(item.reference)">
+        <h2 v-if="!showDetails" @click="LoadDetails(item.reference)">
           {{item.name}}
         </h2>
       </b-carousel-slide>
@@ -54,7 +54,7 @@
      <details-view :detail="detail" v-if="showDetails" v-on:show-details="doSomething"></details-view>
     <footer class="py-5 bg-black">
     <div class="container">
-      <p class="m-0 text-center text-white small">Copyright &copy; Your Website 2019</p>
+      <p class="m-0 text-center text-white small">Copyright &copy; Restaurant Tinder 2019</p>
     </div>
   </footer>
 </div>
@@ -88,6 +88,10 @@ name: 'liked',
          }
          let filteredKeywords = newarray.filter((word) => wordsToRemove.includes(word.name));
          return filteredKeywords;
+     },
+     user(){
+         let myUser = auth.getUser();
+        return myUser.sub
      }
   },  
   methods: {
@@ -109,7 +113,6 @@ name: 'liked',
       this.$router.go('/');
     },
     LoadDetails(vm){
-        this.showDetails = true;
   fetch(`${process.env.VUE_APP_REMOTE_API}/api/main/details/?placeId=${vm}`, {
         method: 'get',
         headers: {
@@ -122,7 +125,6 @@ name: 'liked',
           return response.json();
         })
         .then((data) => {
-          // this.detail = data;
            this.detail = data.result;
           this.showDetails = true;
 

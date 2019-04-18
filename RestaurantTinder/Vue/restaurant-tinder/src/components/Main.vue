@@ -11,18 +11,14 @@
       <b-carousel-slide 
       v-for="item in justResults" :key="item.reference"
       >
-      
-      
        <img
           slot="img"
           class="main-img"
           :src="getPhoto(item.photos[0].photo_reference)"
           alt="image slot"
           @click="LoadDetails(item.reference)"
-          
         >
-        
-        <h2 @click="LoadDetails(item.reference)">
+        <h2 v-if="!showDetails" @click="LoadDetails(item.reference)">
           {{item.name}}
         </h2>
        <a href="#"  @click="reject"  class="carousel-control-prev"><span  class="carousel-control-prev-icon"></span><span class="sr-only">Previous Slide</span></a>
@@ -72,7 +68,6 @@ export default {
            this.rejected.push(rejectedResturant)
            }
            let final = this.rejected.concat(testwords);
-           
            tinder.saveRejected(final)
            inputNode[0].nextElementSibling.className = "carousel-item active";
            inputNode[0].className = "carousel-item";
@@ -145,10 +140,10 @@ LoadDetails(vm){
          }
          let wordsToRemove = tinder.getRejected();
          if(wordsToRemove === null){
-            return newarray;
+            return this.shuffle(newarray);
          }
          let filteredKeywords = newarray.filter((word) => !wordsToRemove.includes(word.name));
-         return filteredKeywords;
+         return this.shuffle(filteredKeywords);
      }, 
   },
    created() {
@@ -231,6 +226,9 @@ h2{
 }
 .carousel-item{
   height: 90vh;
+}
+h2{
+  cursor: pointer;
 }
 
 </style>
