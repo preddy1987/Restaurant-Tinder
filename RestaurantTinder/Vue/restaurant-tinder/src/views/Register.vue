@@ -151,14 +151,13 @@ export default {
  /* test css */
  /* Full-width input fields */
 input[type=text], input[type=password], input[type=email] {
-    width: 90%;
-    font-size:14px;
+     width: 90%;
     padding: 12px 20px;
-    margin: 5px 0px 5px 0px;
+    margin: 5px 26px;
     display: inline-block;
     border: 1px solid #ccc;
+    font-size:14px;
     box-sizing: border-box;
-
 }
 
 /* Set a style for all buttons */
@@ -254,6 +253,16 @@ button:hover {
   .btn-primary {
     margin: 5px 0px 5px 15px;
 }
+input[type=text], input[type=password], input[type=email] {
+     width: 90%;
+    padding: 10px 15px;
+    margin: 4px 18px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    font-size:12px;
+    box-sizing: border-box;
+}
+
 }
 @keyframes zoom {
     from {transform: scale(0)} 

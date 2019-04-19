@@ -1,6 +1,6 @@
 <template>
 <layout >
-  <div id="modal-wrapper" class="modal" >
+  <div id="modal-wrapper" class="modal" @click='documentClick'>
     <form id="test2" class="modal-content animate" @submit.prevent="login">
       <div class="imgcontainer">
          <router-link class="close"  title="Close PopUp" :to="{ name: 'landing' }">&times;</router-link>
